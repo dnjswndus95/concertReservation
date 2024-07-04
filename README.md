@@ -3,6 +3,8 @@
 
 # 설계 문서 링크
 <https://docs.google.com/spreadsheets/d/1jEcFOqxLlLurLuoxODR3ltuUxoNz-vNjaMJXt3ERWxY/edit?gid=0#gid=0>
+API Spec, MileStone, 요구사항 명세서가 위 링크에 포함되어 있습니다.
+
 ---
 ### MileStone
 ![마일스톤](https://github.com/dnjswndus95/concertReservation/assets/32067312/46a1ddd4-c0e4-41a5-8dfb-fbd211774210)
