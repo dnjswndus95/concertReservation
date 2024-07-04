@@ -3,7 +3,7 @@
 
 # 설계 문서 링크
 <https://docs.google.com/spreadsheets/d/1jEcFOqxLlLurLuoxODR3ltuUxoNz-vNjaMJXt3ERWxY/edit?gid=0#gid=0>
-API Spec, MileStone, 요구사항 명세서가 위 링크에 포함되어 있습니다.
+\n API Spec, MileStone, 요구사항 명세서가 위 링크에 포함되어 있습니다.
 
 ---
 ### MileStone
