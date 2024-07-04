@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant 사용자
+participant 서버
+participant 유저
+participant 결제내역
+participant 좌석
+participant 유저잔액히스토리
+participant 대기열
+
+사용자 -> 서버 : POST /payment \n결제 요청
+
+서버 -> 유저 : 유저 잔액 차감
+activate 유저
+alt user가 존재하지 않는 경우
+    유저 --> 사용자 : Exception 유저가 존재하지 않습니다.
+else user가 존재하는 경우
+    유저 --> 서버 : 유저 잔액 정보 반환
+end
+deactivate 유저
+
+서버 -> 결제내역 : 결제내역 결제완료 상태로 update
+activate 결제내역
+결제내역 --> 서버 : 결제내역 정보 반환
+deactivate 결제내역
+
+서버 -> 좌석 : 좌석 상태 예약완료 상태로 update
+activate 좌석
+좌석 --> 서버 : 좌석 정보 반환
+deactivate 좌석
+
+서버 -> 유저잔액히스토리 : 유저 잔액 차감 히스토리 생성
+activate 유저잔액히스토리
+유저잔액히스토리 --> 서버 : 잔액히스토리 반환
+deactivate 유저잔액히스토리
+
+서버 -> 대기열 : 유저 토큰 만료상태로 update
+activate 대기열
+대기열 --> 서버 : 토큰 정보 반환
+deactivate 대기열
+
+서버 --> 사용자 : 결제 내역 정보 반환
+
+
+@enduml

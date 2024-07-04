@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+participant 사용자
+participant 서버
+participant 대기열
+participant 콘서트
+participant 예약
+participant 좌석
+participant 결제내역
+
+
+사용자 -> 서버 : POST /reservation \n 콘서트 좌석 예약 요청
+activate 서버
+
+alt polling \n while(true)]
+서버 -> 대기열 : 토큰으로 진입 가능 여부 확인
+activate 대기열
+
+alt 진입가능
+    대기열 --> 서버 : 토큰 반환
+else 진입 불가능
+    대기열 --> 서버 : 진입 불가능, 대기열 순번 반환
+end
+end
+deactivate 대기열
+
+
+서버 -> 콘서트 : 콘서트 조회
+activate 콘서트
+alt 콘서트가 없을 경우
+    콘서트 --> 사용자 : Exception: 콘서트를 찾을 수 없습니다.
+else 콘서트가 있는 경우
+
+    콘서트 -> 서버 : 콘서트 정보 반환
+end
+deactivate 콘서트
+
+
+서버 -> 예약 : 해당 콘서트로 예약 생성
+activate 예약
+예약 --> 서버 : 예약내역 정보 반환
+deactivate 예약
+
+
+서버 -> 좌석 : 예약한 좌석 임시배정 상태로 업데이트
+activate 좌석
+alt 좌석이 없는 경우
+    좌석 --> 사용자 : Exception: 좌석을 찾을 수 없습니다.
+end
+좌석 --> 서버 : 좌석정보 반환
+deactivate 좌석
+
+서버 -> 결제내역 : 결제대기 상태로 결제내역 생성
+activate 결제내역
+결제내역 --> 서버 : 결제내역 정보 반환
+deactivate 결제내역
+
+서버 --> 사용자 : 좌석 예약 여부 반환
+
+deactivate 서버
+
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+
+participant 사용자
+participant 서버
+participant 대기열
+participant 콘서트
+
+사용자 -> 서버 : GET /concerts/{concertId}/seat?date=YYYY-MM-DD\n해당 콘서트 예약 가능한 좌석 조회
+activate 서버
+
+
+alt polling \n while(true)]
+서버 -> 대기열 : 토큰으로 진입 가능 여부 확인
+activate 대기열
+
+alt 진입가능
+    대기열 --> 서버 : 토큰 반환
+else 진입 불가능
+    대기열 --> 서버 : 진입 불가능, 대기열 순번 반환
+end
+end
+deactivate 대기열
+
+서버 -> 콘서트 : concertId에 해당하는 콘서트의 예약 가능 좌석 조회
+activate 콘서트
+alt#Gold #Pink concertId에 해당하는 콘서트를 찾지 못한 경우
+    콘서트 --> 사용자 : Exception: Concert Not Found
+else #LightBlue concertId에 해당하는 콘서트 콘서트 찾은 경우
+    콘서트 --> 서버 : 콘서트의 예약 가능한 좌석 리스트 반환
+deactivate 콘서트
+서버 -> 사용자 : 콘서트의 예약 가능한 좌석 리스트를 Response에 담아 반환
+end
+
+deactivate 서버
+
+@enduml
