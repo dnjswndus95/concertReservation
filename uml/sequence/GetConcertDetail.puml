@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant 사용자
+participant 서버
+participant 콘서트
+
+사용자 -> 서버 : GET /concerts/{concertId}\n콘서트 개별 정보 조회
+activate 서버
+
+서버 -> 콘서트 : concertId에 해당하는 콘서트 정보 조회
+activate 콘서트
+alt#Gold #Pink concertId에 해당하는 콘서트를 찾지 못한 경우
+        콘서트 --> 사용자 : Exception: Concert Not Found
+else #LightBlue concertId에 해당하는 콘서트 콘서트 찾은 경우
+         콘서트 --> 서버 : 콘서트 정보 반환
+    deactivate 콘서트
+end
+서버 --> 사용자: 콘서트 정보를 포함하는 Response 반환
+deactivate 서버
+@enduml
+

@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+participant 사용자
+participant 서버
+participant 예약
+participant 좌석
+participant 결제내역
+participant 유저
+participant 유저잔액히스토리
+
+사용자 -> 서버 : POST /reservation/cancel \n 콘서트 좌석 예약 취소 요청
+activate 서버
+
+서버 -> 예약 : 해당 예약 취소 처리
+activate 예약
+alt 예약 정보가 존재하지 않을 경우
+    예약 --> 사용자 : Exception: 예약 취소에 실패했습니다.
+end
+예약 --> 서버 : 취소된 예약 정보 반환
+deactivate 예약
+
+서버 -> 좌석 : 취소하는 좌석 예약 가능 상태로 update
+activate 좌석
+alt 좌석이 없는 경우
+    좌석 --> 사용자 : Exception: 좌석을 찾을 수 없습니다.
+end
+좌석 --> 서버 : 취소된 좌석정보 반환
+deactivate 좌석
+
+서버 -> 결제내역 : 결제취소 상태로 결제내역 update
+activate 결제내역
+결제내역 --> 서버 : 결제내역 정보 반환
+deactivate 결제내역
+
+서버 -> 유저 : 취소된 금액만큼 유저의 잔액 증가 update
+유저 -> 유저잔액히스토리 : 환불 히스토리 생성
+유저잔액히스토리 --> 유저 : 환불 히스토리 정보 반환
+유저 --> 서버 : 유저잔액히스토리, 유저 잔액 정보 반환
+
+서버 --> 사용자 : 좌석 예약 취소 성공 여부 반환
+
+deactivate 서버
+
+@enduml

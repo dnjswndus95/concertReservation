@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant 사용자
+participant 서버
+participant 유저
+participant 유저잔액히스토리
+
+사용자 -> 서버 : POST /balance/charge \n유저 잔액 충전
+activate 서버
+
+서버 -> 유저 : 유저 잔액 충전
+activate 유저
+alt user가 존재하지 않는 경우
+    유저 --> 사용자 : Exception 유저가 존재하지 않습니다.
+else user가 존재하는 경우
+    유저 --> 서버 : 유저 잔액 정보 반환
+end
+deactivate 유저
+
+서버 -> 유저잔액히스토리: 유저 잔액 충전 히스토리 새성 요청
+activate 유저잔액히스토리
+유저잔액히스토리 --> 서버 : 잔액 충전 히스토리 정보 반환
+deactivate 유저잔액히스토리
+
+서버 --> 사용자 : 유저 잔액 정보 담은 Response 반환
+
+deactivate 서버
+@enduml

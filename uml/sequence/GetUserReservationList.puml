@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+participant 사용자
+participant 서버
+participant 유저
+participant 예약
+participant 콘서트
+
+사용자 -> 서버 : GET /reservation/{userId}/list \n 콘서트 예약 리스트 반환
+activate 서버
+
+서버 -> 유저 :
+activate 유저
+alt 유저가 존재하지 않는 경우
+    유저 --> 사용자 : Exception: 유저를 찾지 못했습니다.
+end
+유저 --> 서버 : 유저 정보 반환
+deactivate 유저
+
+서버 -> 예약 : 유저 id로 생성된 예약내역 리스트 조회
+activate 예약
+예약 --> 서버 : 예약 리스트 반환
+deactivate 예약
+
+서버 -> 콘서트 : 예약 리스트에 있는 콘서트 id 리스트로 예약 정보 조회
+activate 콘서트
+콘서트 --> 서버 : 예약 정보 리스트 반환
+deactivate 콘서트
+
+서버 --> 사용자 : 예약리스트 반환
+
+deactivate 서버
+
+@enduml
