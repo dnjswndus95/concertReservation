@@ -1,5 +1,6 @@
 package com.example.hhpuls.concertReservation.presentation.dto.reservation;
 
+import com.example.hhpuls.concertReservation.application.command.ReservationCommand;
 import com.example.hhpuls.concertReservation.presentation.dto.concert.ConcertInfoWithCreateDateDto;
 import com.example.hhpuls.concertReservation.presentation.dto.concert.SeatInfoDto;
 import com.example.hhpuls.concertReservation.presentation.dto.payment.PaymentInfoDto;
@@ -12,34 +13,33 @@ public class CreateReservationDto {
             Long userId,
             Long concertDetailId,
             Long seatId
-    ) {}
+    ) {
+        public ReservationCommand.createCommand toCommand() {
+            return ReservationCommand.createCommand.builder()
+                    .userId(this.userId)
+                    .concertDetailId(this.concertDetailId)
+                    .seatId(this.seatId)
+                    .build();
+        }
+    }
 
     @Builder
     public record Response(
             ConcertInfoWithCreateDateDto concertInfo,
             SeatInfoDto seatInfo,
-            PaymentInfoDto paymentInfo
+            PaymentInfoDto paymentInfo,
 
-    ) {}
+            ReservationInfoDto reservationInfo
+
+    ) {
+
+        public static CreateReservationDto.Response fromCommand(ReservationCommand.createResultCommand command) {
+            return Response.builder()
+                    .seatInfo(SeatInfoDto.from(command.seatInfo()))
+                    .paymentInfo(PaymentInfoDto.from(command.paymentInfo()))
+                    .concertInfo(ConcertInfoWithCreateDateDto.from(command.concertInfo()))
+                    .reservationInfo(ReservationInfoDto.from(command.reservationInfoModel()))
+                    .build();
+        }
+    }
 }
-
-/**
- * - Body:
- * {
- *     "concertInfo": { // 콘서트 정보
- *         "concertId": Long, // 콘서트 pk
- *         "concertName": String, // 콘서트 이름
- *         "concertDate": datetime, // 콘서트 일시
- *         "concertDetailId": String, // 콘서트 상세 pk
- *     },
- *     "seatInfo": { // 좌석정보
- *         "seatId": Long, // 좌석 pk
- *         "seatNumber": Integer // 좌석 번호
- *     },
- *     "paymentInfo": { // 결제정보
- *         "paymentId": Long, // 결제내역 pk
- *         "paymentStatus": Integer, // 결제내역 상태
- *         "paymentPrice": Integer // 결제금액
- *     }
- * }
- */
