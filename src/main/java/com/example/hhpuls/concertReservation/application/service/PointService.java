@@ -1,35 +1,34 @@
 package com.example.hhpuls.concertReservation.application.service;
 
-import com.example.hhpuls.concertReservation.application.command.BalanceCommand;
+import com.example.hhpuls.concertReservation.application.command.PointCommand;
 import com.example.hhpuls.concertReservation.application.repository.UserPointRepository;
-import com.example.hhpuls.concertReservation.common.exception.UserPointException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.payment.UserPoint;
+import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class BalanceServiceImpl implements BalanceService {
+public class PointService {
 
     private final UserPointRepository userPointRepository;
 
-    @Override
-    public UserPoint chargePoint(BalanceCommand.ChargeBalanceCommand chargeCommand) {
+    public UserPoint chargePoint(PointCommand.ChargePointCommand chargeCommand) {
         UserPoint userPoint = this.selectUserPoint(chargeCommand.userId());
 
-        userPoint.chargePoint(chargeCommand.balance());
+        userPoint.charge(chargeCommand.point());
 
         return this.userPointRepository.save(userPoint);
     }
 
-    @Override
     public UserPoint findUserPoint(Long userId) {
         return this.selectUserPoint(userId);
     }
 
     private UserPoint selectUserPoint(Long userId) {
         return this.userPointRepository.find(userId).orElseThrow(
-                () -> new UserPointException("유저 포인트 정보가 없습니다.")
+                () -> new CustomException(ErrorCode.USER_POINT_IS_NOT_FOUND)
         );
     }
 }

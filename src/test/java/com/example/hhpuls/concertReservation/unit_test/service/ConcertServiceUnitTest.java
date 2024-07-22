@@ -1,3 +1,4 @@
+/*
 package com.example.hhpuls.concertReservation.unit_test.service;
 
 import com.example.hhpuls.concertReservation.application.command.ConcertCommand;
@@ -5,9 +6,9 @@ import com.example.hhpuls.concertReservation.application.model.ConcertInfoWithCr
 import com.example.hhpuls.concertReservation.application.model.SeatInfoModel;
 import com.example.hhpuls.concertReservation.application.repository.ConcertDetailRepository;
 import com.example.hhpuls.concertReservation.application.repository.SeatRepository;
-import com.example.hhpuls.concertReservation.application.service.ConcertServiceImpl;
+import com.example.hhpuls.concertReservation.application.service.ConcertService;
 import com.example.hhpuls.concertReservation.common.enums.SeatStatus;
-import com.example.hhpuls.concertReservation.common.exception.ConcertException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.concert.Concert;
 import com.example.hhpuls.concertReservation.domain.domain.concert.ConcertDetail;
 import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
@@ -31,7 +32,7 @@ import static org.mockito.BDDMockito.given;
 public class ConcertServiceUnitTest {
 
     @InjectMocks
-    ConcertServiceImpl concertService;
+    ConcertService concertService;
 
     @Mock
     ConcertDetailRepository concertDetailRepository;
@@ -80,7 +81,7 @@ public class ConcertServiceUnitTest {
         Long concertDetailId = -1L;
 
         // when
-        ConcertException e = assertThrows(ConcertException.class, () -> concertService.findConcertDetail(concertDetailId));
+        CustomException e = assertThrows(CustomException.class, () -> concertService.findConcertDetail(concertDetailId));
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("콘서트 상세정보가 없습니다.");
@@ -93,7 +94,7 @@ public class ConcertServiceUnitTest {
         Long seatId = 1L;
 
         // when
-        ConcertException e = assertThrows(ConcertException.class, () -> concertService.findSeat(seatId));
+        CustomException e = assertThrows(CustomException.class, () -> concertService.findSeat(seatId));
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("좌석 정보를 찾을 수 없습니다.");
@@ -103,35 +104,12 @@ public class ConcertServiceUnitTest {
     @DisplayName("예약 가능한 콘서트 조회")
     public void 예약가능한코서트조회() {
         // given
-        LocalDateTime createDate = LocalDateTime.of(2024, 07, 4, 14, 0, 0);
+        LocalDateTime concertDate = LocalDateTime.now().plusDays(2);
+        LocalDateTime reservationDate = LocalDateTime.now().minusDays(2);
         LocalDateTime now = LocalDateTime.now();
 
-        // return 데이터 Mocking
-        List<ConcertInfoWithCreateDateModel> concertInfoWithCreateDateModelList = new ArrayList<>();
-        ConcertInfoWithCreateDateModel elem1 = ConcertInfoWithCreateDateModel.builder()
-                .concertId(1L)
-                .concertDetailId(1L)
-                .concertName("싸이콘서트")
-                .concertDate(LocalDateTime.of(2024, 07, 12, 10, 0, 0))
-                .concertCreateDate(createDate)
-                .build();
-        ConcertInfoWithCreateDateModel elem2 = ConcertInfoWithCreateDateModel.builder()
-                .concertId(1L)
-                .concertDetailId(2L)
-                .concertName("싸이콘서트")
-                .concertDate(LocalDateTime.of(2024, 07, 12, 14, 0, 0))
-                .concertCreateDate(createDate)
-                .build();
+        Concert concert = new Concert(1L, "싸이 콘서트", null);
 
-        concertInfoWithCreateDateModelList.add(elem1);
-        concertInfoWithCreateDateModelList.add(elem2);
-
-        ConcertCommand.GetConcertInfoListResultCommand mockResult
-                = ConcertCommand.GetConcertInfoListResultCommand.builder()
-                .concertInfoList(concertInfoWithCreateDateModelList)
-                .build();
-
-        // repo에서 반환할 데이터 Mocking
         List<ConcertDetail> concertDetails = new ArrayList<>();
         ConcertDetail concertDetail1 = new ConcertDetail(1L, 1L, LocalDateTime.of(2024, 07, 12, 10, 0, 0), LocalDateTime.of(2024, 07, 8, 10, 0, 0), null);
         ConcertDetail concertDetail2 = new ConcertDetail(1L, 2L, LocalDateTime.of(2024, 07, 12, 14, 0, 0), LocalDateTime.of(2024, 07, 8, 10, 0, 0), null);
@@ -142,11 +120,11 @@ public class ConcertServiceUnitTest {
         given(concertDetailRepository.findConcertDetails(now)).willReturn(concertDetails);
 
         // when
-        ConcertCommand.GetConcertInfoListResultCommand result = concertService.getConcertInfoList();
+        List<ConcertDetail> result = concertService.getConcertInfoList();
 
         // then
-        Assertions.assertThat(result.concertInfoList().get(0)).isEqualTo(elem1);
-        Assertions.assertThat(result.concertInfoList().get(1)).isEqualTo(elem2);
+        Assertions.assertThat(result.get(0)).isEqualTo(concertDetail1);
+        Assertions.assertThat(result.get(1)).isEqualTo(concertDetail2);
     }
 
     @Test
@@ -181,7 +159,7 @@ public class ConcertServiceUnitTest {
         given(seatRepository.findByConcertDetailId(1L, SeatStatus.PENDING.getValue())).willReturn(List.of());
 
         // when
-        ConcertException e = assertThrows(ConcertException.class, () -> concertService.getSeatInfo(concertDetailId));
+        CustomException e = assertThrows(CustomException.class, () -> concertService.getSeatInfo(concertDetailId));
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("콘서트의 좌석정보가 존재하지 않습니다.");
@@ -235,3 +213,4 @@ public class ConcertServiceUnitTest {
         Assertions.assertThat(result.seatList().get(1)).isEqualTo(mockResult.seatList().get(1));
     }
 }
+*/

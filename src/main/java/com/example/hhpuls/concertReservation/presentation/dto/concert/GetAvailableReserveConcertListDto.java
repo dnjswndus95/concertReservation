@@ -1,7 +1,6 @@
 package com.example.hhpuls.concertReservation.presentation.dto.concert;
 
-import com.example.hhpuls.concertReservation.application.command.ConcertCommand;
-import com.example.hhpuls.concertReservation.application.model.ConcertInfoWithReservationDateModel;
+import com.example.hhpuls.concertReservation.domain.domain.concert.ConcertDetail;
 import lombok.Builder;
 
 import java.util.ArrayList;
@@ -14,17 +13,16 @@ public class GetAvailableReserveConcertListDto {
             List<ConcertInfoWithReservationDateDto> concertInfoList
     ) {
 
-        public static GetAvailableReserveConcertListDto.Response fromCommand(ConcertCommand.GetAvailableReserveConcertListResultCommand command) {
-            List<ConcertInfoWithReservationDateDto> cocertInfoList = new ArrayList<>();
+        public static GetAvailableReserveConcertListDto.Response from(List<ConcertDetail> concertDetailList) {
+            List<ConcertInfoWithReservationDateDto> concertInfoList = new ArrayList<>();
 
-            for (ConcertInfoWithReservationDateModel model : command.concertInfoList()) {
-                cocertInfoList.add(
-                        ConcertInfoWithReservationDateDto.from(model)
-                );
+            for (ConcertDetail concertDetail : concertDetailList) {
+                concertInfoList.add(ConcertInfoWithReservationDateDto.from(concertDetail));
             }
 
+
             return GetAvailableReserveConcertListDto.Response.builder()
-                    .concertInfoList(cocertInfoList)
+                    .concertInfoList(concertInfoList)
                     .build();
         }
     }

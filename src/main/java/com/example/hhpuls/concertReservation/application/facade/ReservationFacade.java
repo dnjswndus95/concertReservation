@@ -1,12 +1,12 @@
 package com.example.hhpuls.concertReservation.application.facade;
 
 import com.example.hhpuls.concertReservation.application.command.ReservationCommand;
-import com.example.hhpuls.concertReservation.application.model.ConcertInfoWithCreateDateModel;
-import com.example.hhpuls.concertReservation.application.model.PaymentInfoModel;
-import com.example.hhpuls.concertReservation.application.model.ReservationInfoWithSeatInfoModel;
+import com.example.hhpuls.concertReservation.application.model.ReservationInfo;
+import com.example.hhpuls.concertReservation.application.model.ReservationInfoWithSeatInfo;
 import com.example.hhpuls.concertReservation.application.service.ConcertService;
 import com.example.hhpuls.concertReservation.application.service.PaymentService;
 import com.example.hhpuls.concertReservation.application.service.ReservationService;
+import com.example.hhpuls.concertReservation.domain.domain.Reservation;
 import com.example.hhpuls.concertReservation.domain.domain.concert.ConcertDetail;
 import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
 import lombok.RequiredArgsConstructor;
@@ -22,36 +22,26 @@ public class ReservationFacade {
     private final PaymentService paymentService;
 
     @Transactional
-    public ReservationCommand.createResultCommand reserve(ReservationCommand.createCommand command) {
+    public ReservationInfo reserve(ReservationCommand.createCommand command) {
         // Reservation 생성
-        ReservationInfoWithSeatInfoModel reservedInfo = this.reservationService.reserve(command);
+        ReservationInfoWithSeatInfo reservationInfoWithSeatInfo = this.reservationService.reserve(command);
 
         // 콘서트 정보 조회
         ConcertDetail findConcertDetail = this.concertService.findConcertDetail(command.concertDetailId());
 
         // 결제내역 생성
-        Payment payment = this.paymentService.create(reservedInfo.reservationInfo().reservationId(), reservedInfo.seatInfoModel().seatPrice());
+        Payment payment = this.paymentService.create(reservationInfoWithSeatInfo.reservation().getId(), reservationInfoWithSeatInfo.seat().getPrice());
 
-        return ReservationCommand.createResultCommand.builder()
-                .concertInfo(ConcertInfoWithCreateDateModel.fromDomain(findConcertDetail))
-                .seatInfo(reservedInfo.seatInfoModel())
-                .paymentInfo(PaymentInfoModel.fromDomain(payment))
-                .reservationInfoModel(reservedInfo.reservationInfo())
+        return ReservationInfo.builder()
+                .concertDetail(findConcertDetail)
+                .payment(payment)
+                .seat(reservationInfoWithSeatInfo.seat())
+                .reservation(reservationInfoWithSeatInfo.reservation())
                 .build();
     }
 
     @Transactional
-    public ReservationCommand.cancelResultCommand cancel(Long reservationId) {
-        try {
-            this.reservationService.cancelReserve(reservationId);
-        } catch (Exception e) {
-            return ReservationCommand.cancelResultCommand.builder()
-                    .isSuccess(false)
-                    .build();
-        }
-
-        return ReservationCommand.cancelResultCommand.builder()
-                .isSuccess(true)
-                .build();
+    public Reservation cancel(Long reservationId) {
+        return this.reservationService.cancelReserve(reservationId);
     }
 }

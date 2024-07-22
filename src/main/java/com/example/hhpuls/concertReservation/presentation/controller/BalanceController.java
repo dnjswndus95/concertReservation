@@ -1,6 +1,6 @@
 package com.example.hhpuls.concertReservation.presentation.controller;
 
-import com.example.hhpuls.concertReservation.application.facade.BalanceFacade;
+import com.example.hhpuls.concertReservation.application.facade.PointFacade;
 import com.example.hhpuls.concertReservation.presentation.dto.balance.ChargeBalanceDto;
 import com.example.hhpuls.concertReservation.presentation.dto.balance.GetBalanceInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BalanceController {
 
-    private final BalanceFacade balanceFacade;
+    private final PointFacade pointFacade;
 
     @Operation(summary = "유저 잔액 조회", description = "userId에 해당하는 유저의 잔액을 조회합니다.")
     @GetMapping("/{userId}")
     public GetBalanceInfoDto.Response getBalanceInfo(@PathVariable Long userId) {
         return GetBalanceInfoDto.Response.fromCommand(
-                this.balanceFacade.findUserPoint(userId)
+                this.pointFacade.findUserPoint(userId)
         );
     }
 
@@ -28,7 +28,7 @@ public class BalanceController {
     @PostMapping("/charge")
     public ChargeBalanceDto.Response chargeBalance(@RequestBody ChargeBalanceDto.Request request) {
         return ChargeBalanceDto.Response.fromCommand(
-                this.balanceFacade.chargePoint(request.toCommand())
+                this.pointFacade.chargePoint(request.toCommand())
         );
     }
 }

@@ -6,6 +6,7 @@ import com.example.hhpuls.concertReservation.infrastructure.repository.jpa.JpaSe
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,5 +33,10 @@ public class SeatRepositoryImpl implements SeatRepository {
     @Override
     public Optional<Seat> findById(Long seatId) {
         return this.jpaSeatRepository.findById(seatId);
+    }
+
+    @Override
+    public void resetTemporarySeats(LocalDateTime nowMinusFiveMinutes) {
+        this.jpaSeatRepository.resetTemporarySeats(nowMinusFiveMinutes);
     }
 }

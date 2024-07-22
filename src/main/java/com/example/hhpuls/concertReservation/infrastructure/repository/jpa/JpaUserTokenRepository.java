@@ -22,4 +22,6 @@ public interface JpaUserTokenRepository extends JpaRepository<UserToken, Long> {
 
     @Query("SELECT count(ut) FROM UserToken ut WHERE ut.status = 1")
     public Integer countUserTokenByStatus();
+
+    public Optional<UserToken> findByUserId(Long userId);
 }

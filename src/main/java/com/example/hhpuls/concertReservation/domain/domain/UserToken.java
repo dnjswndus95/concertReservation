@@ -1,7 +1,8 @@
 package com.example.hhpuls.concertReservation.domain.domain;
 
 import com.example.hhpuls.concertReservation.common.enums.TokenStatus;
-import com.example.hhpuls.concertReservation.common.exception.TokenException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
+import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "user_token")
@@ -46,9 +46,9 @@ public class UserToken {
 
     public void activeToken() {
         if(TokenStatus.EXPIRE.getValue() == this.status)
-            throw new TokenException("이미 만료된 토큰입니다.");
+            throw new CustomException(ErrorCode.ALREADY_TOKEN_EXPIRED);
         if(TokenStatus.ACTIVE.getValue() == this.status)
-            throw new TokenException("이미 활성화된 토큰입니다.");
+            throw new CustomException(ErrorCode.ALREADY_TOKEN_ACTIVE);
 
         this.status = TokenStatus.ACTIVE.getValue();
         this.activeDate = LocalDateTime.now();

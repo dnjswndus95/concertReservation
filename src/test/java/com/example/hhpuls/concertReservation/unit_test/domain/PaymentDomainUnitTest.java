@@ -1,7 +1,7 @@
 package com.example.hhpuls.concertReservation.unit_test.domain;
 
 import com.example.hhpuls.concertReservation.common.enums.PaymentStatus;
-import com.example.hhpuls.concertReservation.common.exception.PaymentException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ public class PaymentDomainUnitTest {
         Payment payment = new Payment(1L, 1L, 1000, PaymentStatus.WAITING.getValue());
 
         // when
-        payment.paymentDone();
+        payment.done();
 
         // then
         Assertions.assertThat(payment.getStatus()).isEqualTo(PaymentStatus.DONE.getValue());
@@ -31,7 +31,7 @@ public class PaymentDomainUnitTest {
         Payment payment = new Payment(1L, 1L, 1000, PaymentStatus.WAITING.getValue());
 
         // when
-        payment.paymentCancel();
+        payment.cancel();
 
         // then
         Assertions.assertThat(payment.getStatus()).isEqualTo(PaymentStatus.CANCEL.getValue());
@@ -44,7 +44,7 @@ public class PaymentDomainUnitTest {
         Payment payment = new Payment(1L, 1L, 1000, PaymentStatus.CANCEL.getValue());
 
         // when
-        PaymentException e = assertThrows(PaymentException.class, () -> payment.paymentDone());
+        CustomException e = assertThrows(CustomException.class, () -> payment.done());
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("결제완료할 수 없는 상태입니다.");
@@ -57,7 +57,7 @@ public class PaymentDomainUnitTest {
         Payment payment = new Payment(1L, 1L, 1000, PaymentStatus.DONE.getValue());
 
         // when
-        PaymentException e = assertThrows(PaymentException.class, () -> payment.paymentCancel());
+        CustomException e = assertThrows(CustomException.class, () -> payment.cancel());
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("결제취소할 수 없는 상태입니다.");

@@ -16,7 +16,12 @@ public class UserTokenRepositoryImpl implements UserTokenRepository {
     private final JpaUserTokenRepository jpaUserTokenRepository;
 
     @Override
-    public Optional<UserToken> findUserToken(Long userId, String token) {
+    public Optional<UserToken> findByToken(String token) {
+        return this.jpaUserTokenRepository.findByToken(token);
+    }
+
+    @Override
+    public Optional<UserToken> findByUserIdAndTokenValue(Long userId, String token) {
         return this.jpaUserTokenRepository.findByUserIdAndToken(userId, token);
     }
 
@@ -26,13 +31,18 @@ public class UserTokenRepositoryImpl implements UserTokenRepository {
     }
 
     @Override
-    public void updateUserTokenStatus(Integer beforeStatus, Integer afterStatus, LocalDateTime expirationTime) {
+    public void updateStatus(Integer beforeStatus, Integer afterStatus, LocalDateTime expirationTime) {
         this.jpaUserTokenRepository.updateUserTokenStatus(beforeStatus, afterStatus, expirationTime);
     }
 
     @Override
     public Integer getActiveTokenCount() {
         return this.jpaUserTokenRepository.countUserTokenByStatus();
+    }
+
+    @Override
+    public Optional<UserToken> findByUserId(Long userId) {
+        return this.jpaUserTokenRepository.findByUserId(userId);
     }
 
 }

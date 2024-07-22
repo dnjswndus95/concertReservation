@@ -1,6 +1,7 @@
 package com.example.hhpuls.concertReservation.presentation.dto.reservation;
 
 import com.example.hhpuls.concertReservation.application.command.ReservationCommand;
+import com.example.hhpuls.concertReservation.application.model.ReservationInfo;
 import com.example.hhpuls.concertReservation.presentation.dto.concert.ConcertInfoWithCreateDateDto;
 import com.example.hhpuls.concertReservation.presentation.dto.concert.SeatInfoDto;
 import com.example.hhpuls.concertReservation.presentation.dto.payment.PaymentInfoDto;
@@ -33,12 +34,12 @@ public class CreateReservationDto {
 
     ) {
 
-        public static CreateReservationDto.Response fromCommand(ReservationCommand.createResultCommand command) {
+        public static CreateReservationDto.Response from(ReservationInfo reservationInfo) {
             return Response.builder()
-                    .seatInfo(SeatInfoDto.from(command.seatInfo()))
-                    .paymentInfo(PaymentInfoDto.from(command.paymentInfo()))
-                    .concertInfo(ConcertInfoWithCreateDateDto.from(command.concertInfo()))
-                    .reservationInfo(ReservationInfoDto.from(command.reservationInfoModel()))
+                    .seatInfo(SeatInfoDto.from(reservationInfo.seat()))
+                    .paymentInfo(PaymentInfoDto.from(reservationInfo.payment()))
+                    .concertInfo(ConcertInfoWithCreateDateDto.from(reservationInfo.concertDetail()))
+                    .reservationInfo(ReservationInfoDto.from(reservationInfo.reservation()))
                     .build();
         }
     }

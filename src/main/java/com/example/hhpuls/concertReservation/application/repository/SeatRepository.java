@@ -2,6 +2,7 @@ package com.example.hhpuls.concertReservation.application.repository;
 
 import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,5 +15,5 @@ public interface SeatRepository {
 
     public Optional<Seat> findById(Long seatId);
 
-
+    public void resetTemporarySeats(LocalDateTime nowMinusFiveMinutes);
 }
