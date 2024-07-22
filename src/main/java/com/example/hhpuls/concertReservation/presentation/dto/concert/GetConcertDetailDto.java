@@ -19,7 +19,7 @@ public class GetConcertDetailDto {
             Integer availableReserveSeatCount
             ) {
 
-        public static GetConcertDetailDto.Response fromCommand(ConcertCommand.GetConcertDetailResultCommand command) {
+        public static GetConcertDetailDto.Response from(ConcertCommand.GetConcertDetailResultCommand command) {
             return Response.builder()
                     .concertId(command.concertId())
                     .concertDetailId(command.concertDetailId())

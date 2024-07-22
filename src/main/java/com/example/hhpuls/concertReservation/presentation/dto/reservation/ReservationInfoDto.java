@@ -1,6 +1,6 @@
 package com.example.hhpuls.concertReservation.presentation.dto.reservation;
 
-import com.example.hhpuls.concertReservation.application.model.ReservationInfoModel;
+import com.example.hhpuls.concertReservation.domain.domain.Reservation;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -11,11 +11,11 @@ public record ReservationInfoDto(
         Integer reservationStatus,
         LocalDateTime createDate
 ) {
-    public static ReservationInfoDto from(ReservationInfoModel model) {
+    public static ReservationInfoDto from(Reservation reservation) {
         return ReservationInfoDto.builder()
-                .reservationId(model.reservationId())
-                .reservationStatus(model.reservationStatus())
-                .createDate(model.createDate())
+                .reservationId(reservation.getId())
+                .reservationStatus(reservation.getStatus())
+                .createDate(reservation.getCreateDate())
                 .build();
     }
 }

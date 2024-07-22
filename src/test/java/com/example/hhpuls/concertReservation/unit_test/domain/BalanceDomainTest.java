@@ -14,7 +14,7 @@ public class BalanceDomainTest {
         UserPoint userPoint = new UserPoint(1L, 1L, 1000);
 
         // when
-        userPoint.chargePoint(2000);
+        userPoint.charge(2000);
 
         // then
         Assertions.assertThat(userPoint.getPoint()).isEqualTo(3000);
@@ -26,10 +26,10 @@ public class BalanceDomainTest {
         UserPoint userPoint = new UserPoint(1L, 1L, 1000);
 
         // when
-        Exception e = assertThrows(Exception.class, () -> userPoint.chargePoint(-2000));
+        Exception e = assertThrows(Exception.class, () -> userPoint.charge(-2000));
 
         // then
-        Assertions.assertThat(e.getMessage()).isEqualTo("포인트 충전은 양수만 가능합니다.");
+        Assertions.assertThat(e.getMessage()).isEqualTo("포인트 충전량은 양수여야만 합니다.");
     }
 
 }

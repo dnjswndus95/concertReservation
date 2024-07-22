@@ -1,8 +1,6 @@
 package com.example.hhpuls.concertReservation.presentation.dto.payment;
 
-import com.example.hhpuls.concertReservation.application.model.PaymentInfoModel;
-import com.example.hhpuls.concertReservation.application.model.SeatInfoModel;
-import com.example.hhpuls.concertReservation.presentation.dto.concert.SeatInfoDto;
+import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
 import lombok.Builder;
 
 
@@ -12,11 +10,11 @@ public record PaymentInfoDto(
         Integer paymentStatus,
         Integer paymentPrice
 ) {
-    public static PaymentInfoDto from(PaymentInfoModel model) {
+    public static PaymentInfoDto from(Payment payment) {
         return PaymentInfoDto.builder()
-                .paymentId(model.paymentId())
-                .paymentStatus(model.paymentStatus())
-                .paymentPrice(model.paymentPrice())
+                .paymentId(payment.getId())
+                .paymentStatus(payment.getStatus())
+                .paymentPrice(payment.getPaymentPrice())
                 .build();
     }
 }

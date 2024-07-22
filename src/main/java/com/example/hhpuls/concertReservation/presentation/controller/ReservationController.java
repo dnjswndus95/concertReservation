@@ -19,7 +19,7 @@ public class ReservationController {
     @Operation(summary = "예약", description = "request Body 내용에 해당하는 예약을 생성합니다.")
     @PostMapping("/")
     public CreateReservationDto.Response createReservation(@RequestBody CreateReservationDto.Request request) {
-        return CreateReservationDto.Response.fromCommand(
+        return CreateReservationDto.Response.from(
                 this.reservationFacade.reserve(request.toCommand())
         );
     }
@@ -27,7 +27,7 @@ public class ReservationController {
     @Operation(summary = "예약 취소", description = "Request Body에 해당하는 예약을 취소합니다.")
     @GetMapping("/cancel/{reservationId}")
     public CancelReservationDto.Response cancelReservation(@PathVariable Long reservationId) {
-        return CancelReservationDto.Response.fromCommand(
+        return CancelReservationDto.Response.from(
                 this.reservationFacade.cancel(reservationId)
         );
     }

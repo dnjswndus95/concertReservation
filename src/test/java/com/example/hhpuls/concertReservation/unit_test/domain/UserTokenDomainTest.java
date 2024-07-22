@@ -1,7 +1,7 @@
 package com.example.hhpuls.concertReservation.unit_test.domain;
 
 import com.example.hhpuls.concertReservation.common.enums.TokenStatus;
-import com.example.hhpuls.concertReservation.common.exception.TokenException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.UserToken;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +44,7 @@ public class UserTokenDomainTest {
         UserToken token = new UserToken(1L, 1L, UUID.randomUUID().toString(), TokenStatus.ACTIVE.getValue(), null, null);
 
         // when
-        TokenException e = assertThrows(TokenException.class, () -> token.activeToken());
+        CustomException e = assertThrows(CustomException.class, () -> token.activeToken());
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("이미 활성화된 토큰입니다.");
@@ -57,7 +57,7 @@ public class UserTokenDomainTest {
         UserToken token = new UserToken(1L, 1L, UUID.randomUUID().toString(), TokenStatus.EXPIRE.getValue(), null, null);
 
         // when
-        TokenException e = assertThrows(TokenException.class, () -> token.activeToken());
+        CustomException e = assertThrows(CustomException.class, () -> token.activeToken());
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("이미 만료된 토큰입니다.");

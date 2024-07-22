@@ -1,7 +1,7 @@
 package com.example.hhpuls.concertReservation.unit_test.domain;
 
 import com.example.hhpuls.concertReservation.common.enums.ReservationStatus;
-import com.example.hhpuls.concertReservation.common.exception.ReservationException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.Reservation;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ public class ReservationUnitTest {
         Reservation reservation = new Reservation(1L, 1L, 1L, 1L, ReservationStatus.DONE.getValue());
 
         // when
-        ReservationException e = assertThrows(ReservationException.class, () -> reservation.cancel());
+        CustomException e = assertThrows(CustomException.class, () -> reservation.cancel());
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("예약 진행 상태가 아닌 예약은 취소할 수 없습니다.");
@@ -57,7 +57,7 @@ public class ReservationUnitTest {
         Reservation reservation = new Reservation(1L, 1L, 1L, 1L, ReservationStatus.DONE.getValue());
 
         // when
-        ReservationException e = assertThrows(ReservationException.class, () -> reservation.done());
+        CustomException e = assertThrows(CustomException.class, () -> reservation.done());
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("예약 진행 상태가 아닌 예약은 에약완료 할 수 없습니다.");

@@ -1,8 +1,9 @@
 package com.example.hhpuls.concertReservation.domain.domain.payment;
 
 import com.example.hhpuls.concertReservation.common.enums.PaymentStatus;
-import com.example.hhpuls.concertReservation.common.exception.PaymentException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.BaseTime;
+import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,16 +30,16 @@ public class Payment extends BaseTime {
     @Column(name = "status")
     private Integer status;
 
-    public void paymentDone() {
+    public void done() {
         if(PaymentStatus.WAITING.getValue() != this.status)
-            throw new PaymentException("결제완료할 수 없는 상태입니다.");
+            throw new CustomException(ErrorCode.PAYMENT_UPDATE_DONE_STATUS_FAIL);
 
         this.status = PaymentStatus.DONE.getValue();
     }
 
-    public void paymentCancel() {
+    public void cancel() {
         if(PaymentStatus.WAITING.getValue() != this.status)
-            throw new PaymentException("결제취소할 수 없는 상태입니다.");
+            throw new CustomException(ErrorCode.PAYMENT_UPDATE_CANCEL_STATUS_FAIL);
 
         this.status = PaymentStatus.CANCEL.getValue();
     }

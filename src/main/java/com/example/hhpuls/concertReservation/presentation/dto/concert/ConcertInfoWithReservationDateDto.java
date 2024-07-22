@@ -1,6 +1,6 @@
 package com.example.hhpuls.concertReservation.presentation.dto.concert;
 
-import com.example.hhpuls.concertReservation.application.model.ConcertInfoWithReservationDateModel;
+import com.example.hhpuls.concertReservation.domain.domain.concert.ConcertDetail;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -10,16 +10,18 @@ public record ConcertInfoWithReservationDateDto(
         Long concertId,
         String concertName,
         Long concertDetailId,
-        LocalDateTime concertDate,
-        LocalDateTime reservationDate
+        LocalDateTime reservationDate,
+        LocalDateTime concertDate
+
 ){
-    public static ConcertInfoWithReservationDateDto from(ConcertInfoWithReservationDateModel model) {
+    public static ConcertInfoWithReservationDateDto from(ConcertDetail concertDetail) {
         return ConcertInfoWithReservationDateDto.builder()
-                .concertId(model.concertId())
-                .concertName(model.concertName())
-                .concertDetailId(model.concertDetailId())
-                .concertDate(model.concertDate())
-                .reservationDate(model.reservationDate())
+                .concertId(concertDetail.getConcertId())
+                .concertName(concertDetail.getConcert().getName())
+                .concertDetailId(concertDetail.getId())
+                .concertDate(concertDetail.getConcertDate())
+                .reservationDate(concertDetail.getAvailableReservationDate())
                 .build();
     }
+
 }

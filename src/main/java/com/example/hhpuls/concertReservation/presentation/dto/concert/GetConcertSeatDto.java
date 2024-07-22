@@ -1,7 +1,7 @@
 package com.example.hhpuls.concertReservation.presentation.dto.concert;
 
-import com.example.hhpuls.concertReservation.application.command.ConcertCommand;
-import com.example.hhpuls.concertReservation.application.model.SeatInfoModel;
+import com.example.hhpuls.concertReservation.application.model.ConcertInfoWithSeatList;
+import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -20,20 +20,18 @@ public class GetConcertSeatDto {
             List<SeatInfoDto> seatList
     ) {
 
-        public static GetConcertSeatDto.Response fromCommand(ConcertCommand.GetSeatInfoResultCommand command) {
+        public static GetConcertSeatDto.Response from(ConcertInfoWithSeatList model) {
             List<SeatInfoDto> seatList = new ArrayList<>();
 
-            for (SeatInfoModel seatInfoModel : command.seatList()) {
-                seatList.add(
-                        SeatInfoDto.from(seatInfoModel)
-                );
+            for (Seat seat : model.seatList()) {
+                seatList.add(SeatInfoDto.from(seat));
             }
 
             return Response.builder()
-                    .concertId(command.concertId())
-                    .concertName(command.concertName())
-                    .concertDetailId(command.concertDetailId())
-                    .concertDate(command.concertDate())
+                    .concertId(model.concertId())
+                    .concertName(model.concertName())
+                    .concertDetailId(model.concertDetailId())
+                    .concertDate(model.concertDate())
                     .seatList(seatList)
                     .build();
         }

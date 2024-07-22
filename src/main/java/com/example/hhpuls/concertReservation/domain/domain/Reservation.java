@@ -1,7 +1,8 @@
 package com.example.hhpuls.concertReservation.domain.domain;
 
 import com.example.hhpuls.concertReservation.common.enums.ReservationStatus;
-import com.example.hhpuls.concertReservation.common.exception.ReservationException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
+import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,14 +34,14 @@ public class Reservation extends BaseTime {
 
     public void cancel() {
         if(ReservationStatus.PROCESS.getValue() != this.status)
-            throw new ReservationException("예약 진행 상태가 아닌 예약은 취소할 수 없습니다.");
+            throw new CustomException(ErrorCode.RESERVATION_UPDATE_CANCEL_STATUS_FAIL);
 
         this.status = ReservationStatus.CANCEL.getValue();
     }
 
     public void done() {
         if(ReservationStatus.PROCESS.getValue() != this.status)
-            throw new ReservationException("예약 진행 상태가 아닌 예약은 에약완료 할 수 없습니다.");
+            throw new CustomException(ErrorCode.RESERVATION_UPDATE_DONE_STATUS_FAIL);
 
         this.status = ReservationStatus.DONE.getValue();
     }

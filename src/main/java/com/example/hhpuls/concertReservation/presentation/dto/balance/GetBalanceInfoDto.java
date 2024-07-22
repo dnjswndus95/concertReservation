@@ -1,9 +1,8 @@
 package com.example.hhpuls.concertReservation.presentation.dto.balance;
 
-import com.example.hhpuls.concertReservation.application.command.BalanceCommand;
+import com.example.hhpuls.concertReservation.domain.domain.payment.UserPoint;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import lombok.Getter;
 
 public class GetBalanceInfoDto {
     @Builder
@@ -14,10 +13,10 @@ public class GetBalanceInfoDto {
             Integer balance
     ) {
 
-        public static GetBalanceInfoDto.Response fromCommand(BalanceCommand.findBalanceResultCommand command) {
+        public static GetBalanceInfoDto.Response fromCommand(UserPoint userPoint) {
             return Response.builder()
-                    .userId(command.userId())
-                    .balance(command.balance())
+                    .userId(userPoint.getUserId())
+                    .balance(userPoint.getPoint())
                     .build();
         }
     }

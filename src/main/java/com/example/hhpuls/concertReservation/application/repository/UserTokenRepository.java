@@ -9,10 +9,14 @@ import java.util.Optional;
 @Component
 public interface UserTokenRepository {
 
-    Optional<UserToken> findUserToken(Long userId, String token);
+    Optional<UserToken> findByToken(String token);
+
+    Optional<UserToken> findByUserIdAndTokenValue(Long userId, String token);
     UserToken save(UserToken userToken);
 
-    void updateUserTokenStatus(Integer beforeStatus, Integer afterStatus, LocalDateTime expirationTime);
+    void updateStatus(Integer beforeStatus, Integer afterStatus, LocalDateTime expirationTime);
 
     Integer getActiveTokenCount();
+
+    Optional<UserToken> findByUserId(Long userId);
 }

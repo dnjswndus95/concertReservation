@@ -1,6 +1,7 @@
 package com.example.hhpuls.concertReservation.presentation.dto.balance;
 
-import com.example.hhpuls.concertReservation.application.command.BalanceCommand;
+import com.example.hhpuls.concertReservation.application.command.PointCommand;
+import com.example.hhpuls.concertReservation.domain.domain.payment.UserPoint;
 import lombok.Builder;
 
 public class ChargeBalanceDto {
@@ -11,8 +12,8 @@ public class ChargeBalanceDto {
             Integer balance
     ) {
 
-        public BalanceCommand.ChargeBalanceCommand toCommand() {
-            return new BalanceCommand.ChargeBalanceCommand(this.userId, this.balance);
+        public PointCommand.ChargePointCommand toCommand() {
+            return new PointCommand.ChargePointCommand(this.userId, this.balance);
         }
     }
 
@@ -21,8 +22,11 @@ public class ChargeBalanceDto {
             Boolean isSuccess,
             Integer balance
     ) {
-        public static ChargeBalanceDto.Response fromCommand(BalanceCommand.ChargeBalanceResultCommand resultCommand) {
-            return new ChargeBalanceDto.Response(resultCommand.isSuccess(), resultCommand.balance());
+        public static ChargeBalanceDto.Response fromCommand(UserPoint userPoint) {
+            return Response.builder()
+                    .isSuccess(true)
+                    .balance(userPoint.getPoint())
+                    .build();
         }
     }
 }

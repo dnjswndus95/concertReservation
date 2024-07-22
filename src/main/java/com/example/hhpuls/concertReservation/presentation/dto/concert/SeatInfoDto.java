@@ -1,6 +1,6 @@
 package com.example.hhpuls.concertReservation.presentation.dto.concert;
 
-import com.example.hhpuls.concertReservation.application.model.SeatInfoModel;
+import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
 import lombok.Builder;
 
 @Builder
@@ -9,11 +9,11 @@ public record SeatInfoDto(
         Integer seatNumber,
         Integer seatPrice
 ) {
-    public static SeatInfoDto from(SeatInfoModel model) {
+    public static SeatInfoDto from(Seat seat) {
         return SeatInfoDto.builder()
-                .seatId(model.seatId())
-                .seatPrice(model.seatPrice())
-                .seatNumber(model.seatNumber())
+                .seatId(seat.getId())
+                .seatPrice(seat.getPrice())
+                .seatNumber(seat.getPrice())
                 .build();
     }
 }

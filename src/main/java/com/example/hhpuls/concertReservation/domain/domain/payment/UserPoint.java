@@ -1,7 +1,8 @@
 package com.example.hhpuls.concertReservation.domain.domain.payment;
 
-import com.example.hhpuls.concertReservation.common.exception.UserPointException;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.BaseTime;
+import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -26,19 +27,19 @@ public class UserPoint extends BaseTime {
     private Integer point;
 
 
-    public void chargePoint(Integer price) {
+    public void charge(Integer price) {
         if(price < 0)
-            throw new UserPointException("포인트 충전은 양수만 가능합니다.");
+            throw new CustomException(ErrorCode.POINT_CHARGE_AMOUNT_MUST_POSITIVE_NUMBER);
 
         this.point += price;
     }
 
-    public void usePoint(Integer price) {
+    public void use(Integer price) {
         if(price < 0)
-            throw new UserPointException("포인트 충전은 양수만 가능합니다.");
+            throw new CustomException(ErrorCode.POINT_CHARGE_AMOUNT_MUST_POSITIVE_NUMBER);
 
         if(this.point - price < 0)
-            throw new UserPointException("가진 금액보다 많은 금액은 사용할 수 없습니다.");
+            throw new CustomException(ErrorCode.POINT_USE_AMOUNT_BIGGER_THAN_RESERVE);
 
         this.point -= price;
     }

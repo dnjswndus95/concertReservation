@@ -6,6 +6,7 @@ import com.example.hhpuls.concertReservation.infrastructure.repository.jpa.JpaRe
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +28,10 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     @Override
     public List<Reservation> findUserReservationList(Long userId) {
         return this.jpaReservationRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public void resetTemporaryReservation(LocalDateTime nowMinusFiveMinutes) {
+        this.jpaReservationRepository.resetTemporaryReservation(nowMinusFiveMinutes);
     }
 }
