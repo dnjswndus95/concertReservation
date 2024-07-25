@@ -7,6 +7,7 @@ import com.example.hhpuls.concertReservation.domain.domain.payment.UserPoint;
 import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Component
@@ -14,19 +15,28 @@ public class PointService {
 
     private final UserPointRepository userPointRepository;
 
+
     public UserPoint chargePoint(PointCommand.ChargePointCommand chargeCommand) {
-        UserPoint userPoint = this.selectUserPoint(chargeCommand.userId());
+        UserPoint userPoint = this.userPointRepository.find(chargeCommand.userId()).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_POINT_NOT_FOUND)
+        );
 
         userPoint.charge(chargeCommand.point());
 
-        return this.userPointRepository.save(userPoint);
+        return userPointRepository.save(userPoint);
     }
 
-    public UserPoint findUserPoint(Long userId) {
-        return this.selectUserPoint(userId);
+    @Transactional
+    public UserPoint usePoint(Long userId, Integer point) {
+        UserPoint userPoint = this.userPointRepository.findByIdWithOptimisticLock(userId).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_POINT_NOT_FOUND)
+        );
+        userPoint.use(point);
+
+        return userPointRepository.save(userPoint);
     }
 
-    private UserPoint selectUserPoint(Long userId) {
+    public UserPoint getUserPoint(Long userId) {
         return this.userPointRepository.find(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_POINT_IS_NOT_FOUND)
         );
