@@ -5,6 +5,10 @@
 <https://docs.google.com/spreadsheets/d/1jEcFOqxLlLurLuoxODR3ltuUxoNz-vNjaMJXt3ERWxY/edit?gid=0#gid=0>
 
 
+# 동시성 문제 발생 Use Case 분석 자료 제출
+<https://detailed-grain-8fe.notion.site/c8e4a35a7abf4911a37c617df547a320?pvs=4>
+
+
 API Spec, MileStone, 요구사항 명세서가 위 링크에 포함되어 있습니다.
 
 ---
