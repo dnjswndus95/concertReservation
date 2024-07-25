@@ -68,9 +68,6 @@ public class ConcurrencyTest {
 
         UserPoint userPoint = pointFacade.getUserPoint(userId);
 
-        System.out.println("실제 요청 건 수 : " + numberOfThreads);
-        System.out.println("실패한 요청 건 수 : " + failCount.get());
-
         // then
         Assertions.assertThat(failCount.get()).isEqualTo(numberOfThreads - 1);
         Assertions.assertThat(userPoint.getPoint()).isEqualTo(1);
@@ -80,6 +77,7 @@ public class ConcurrencyTest {
     @DisplayName("콘서트 좌석 예매 동시성 체크")
     @Test
     void 한_좌석은_가장_먼저_예약을_한_사람만_가능하다() throws InterruptedException {
+
         // given
         Long concertDetailId = 1L;
         Long seatId = 1L;
@@ -113,8 +111,6 @@ public class ConcurrencyTest {
         Seat seat = seatRepository.findById(seatId).orElseThrow(
                 () -> new CustomException(ErrorCode.SEAT_INFO_NOT_FOUND)
         );
-
-
 
         // then
         Assertions.assertThat(failedQueue.size()).isEqualTo(numberOfThreads - 1);
