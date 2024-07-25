@@ -39,4 +39,10 @@ public class SeatRepositoryImpl implements SeatRepository {
     public void resetTemporarySeats(LocalDateTime nowMinusFiveMinutes) {
         this.jpaSeatRepository.resetTemporarySeats(nowMinusFiveMinutes);
     }
+
+    @Override
+    public Optional<Seat> findWithSeatForUpdate(Long seatId) {
+        return this.jpaSeatRepository.findWithPessimisticLock(seatId);
+    }
+
 }

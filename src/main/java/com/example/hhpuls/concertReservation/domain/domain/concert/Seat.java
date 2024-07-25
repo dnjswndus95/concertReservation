@@ -32,8 +32,8 @@ public class Seat extends BaseTime {
     @Column(name = "status")
     private Integer status;
 
-    @Version
-    private Integer version;
+/*    @Version
+    private Integer version;*/
 
     public Integer updateSeatStatus(Integer status) {
         for (SeatStatus seatStatus : SeatStatus.values()) {
