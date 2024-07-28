@@ -3,10 +3,13 @@ package com.example.hhpuls.concertReservation.application.service;
 import com.example.hhpuls.concertReservation.application.command.PaymentCommand;
 import com.example.hhpuls.concertReservation.application.repository.PaymentRepository;
 import com.example.hhpuls.concertReservation.application.repository.ReservationRepository;
+import com.example.hhpuls.concertReservation.application.repository.SeatRepository;
 import com.example.hhpuls.concertReservation.application.repository.UserPointRepository;
 import com.example.hhpuls.concertReservation.common.enums.PaymentStatus;
+import com.example.hhpuls.concertReservation.common.enums.SeatStatus;
 import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
 import com.example.hhpuls.concertReservation.domain.domain.payment.UserPoint;
 import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
 import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
@@ -22,6 +25,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final UserPointRepository userPointRepository;
     private final ReservationRepository reservationRepository;
+    private final SeatRepository seatRepository;
 
     public Payment create(Long reservationId, Integer price) {
         Payment payment = new Payment(null, reservationId, price, PaymentStatus.WAITING.getValue());
@@ -47,12 +51,20 @@ public class PaymentService {
                 () -> new CustomException(ErrorCode.RESERVATION_INFO_NOT_FOUND)
         );
 
+        Seat findSeat = this.seatRepository.findById(reservation.getSeatId()).orElseThrow(
+                () -> new CustomException(ErrorCode.SEAT_INFO_NOT_FOUND)
+        );
+
+        // 좌석 예약완료상태로 업데이트
+        findSeat.updateSeatStatus(SeatStatus.CONFIRM.getValue());
         // 유저 포인트 차감
         findUserPoint.use(command.point());
         // 결제내역 결제완료 상태로 업데이트
         findPayment.done();
         // 예약 예약완료 상태로 업데이트
         reservation.done();
+
+
 
 
         return findPayment;

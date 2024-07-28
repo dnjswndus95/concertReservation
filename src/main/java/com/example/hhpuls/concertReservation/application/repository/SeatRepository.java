@@ -16,4 +16,6 @@ public interface SeatRepository {
     public Optional<Seat> findById(Long seatId);
 
     public void resetTemporarySeats(LocalDateTime nowMinusFiveMinutes);
+
+    public Optional<Seat> findWithSeatForUpdate(Long seatId);
 }

@@ -23,4 +23,9 @@ public class UserPointRepositoryImpl implements UserPointRepository {
         return this.jpaUserPointRepository.save(userPoint);
     }
 
+    @Override
+    public Optional<UserPoint> findByIdWithOptimisticLock(Long userId) {
+        return jpaUserPointRepository.findByIdWithOptimisticLock(userId);
+    }
+
 }

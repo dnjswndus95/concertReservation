@@ -5,7 +5,7 @@ import lombok.Builder;
 public class ReservationCommand {
 
     @Builder
-    public record createCommand(
+    public record CreateCommand(
             Long userId,
             Long concertDetailId,
             Long seatId

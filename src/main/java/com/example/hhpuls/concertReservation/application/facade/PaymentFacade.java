@@ -3,7 +3,6 @@ package com.example.hhpuls.concertReservation.application.facade;
 import com.example.hhpuls.concertReservation.application.command.PaymentCommand;
 import com.example.hhpuls.concertReservation.application.service.PaymentService;
 import com.example.hhpuls.concertReservation.application.service.TokenService;
-import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

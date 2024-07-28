@@ -22,12 +22,12 @@ public class ReservationFacade {
     private final PaymentService paymentService;
 
     @Transactional
-    public ReservationInfo reserve(ReservationCommand.createCommand command) {
-        // Reservation 생성
-        ReservationInfoWithSeatInfo reservationInfoWithSeatInfo = this.reservationService.reserve(command);
-
+    public ReservationInfo reserve(ReservationCommand.CreateCommand command) {
         // 콘서트 정보 조회
         ConcertDetail findConcertDetail = this.concertService.findConcertDetail(command.concertDetailId());
+
+        // Reservation 생성
+        ReservationInfoWithSeatInfo reservationInfoWithSeatInfo = this.reservationService.reserve(command);
 
         // 결제내역 생성
         Payment payment = this.paymentService.create(reservationInfoWithSeatInfo.reservation().getId(), reservationInfoWithSeatInfo.seat().getPrice());

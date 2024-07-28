@@ -3,10 +3,7 @@ package com.example.hhpuls.concertReservation.domain.domain.payment;
 import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.BaseTime;
 import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -25,6 +22,9 @@ public class UserPoint extends BaseTime {
 
     @Column(name = "point")
     private Integer point;
+
+    @Version
+    private Integer version = 0;
 
 
     public void charge(Integer price) {
