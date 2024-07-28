@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    show-sql: true
+  application:
+     name: concertReservation
+  datasource:
+    url: jdbc:mysql://localhost:3306/concert_reservation
+    username: root
+    password: juyeoun1158!
+    driver-class-name: com.mysql.cj.jdbc.Driver

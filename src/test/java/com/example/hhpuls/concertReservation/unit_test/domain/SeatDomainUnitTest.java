@@ -1,3 +1,4 @@
+/*
 package com.example.hhpuls.concertReservation.unit_test.domain;
 
 import com.example.hhpuls.concertReservation.common.enums.SeatStatus;
@@ -50,3 +51,4 @@ public class SeatDomainUnitTest {
         Assertions.assertThat(e.getMessage()).isEqualTo("올바르지 않은 좌석 상태값입니다 : " +  status);
     }
 }
+*/

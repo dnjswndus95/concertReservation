@@ -15,8 +15,8 @@ public class CreateReservationDto {
             Long concertDetailId,
             Long seatId
     ) {
-        public ReservationCommand.createCommand toCommand() {
-            return ReservationCommand.createCommand.builder()
+        public ReservationCommand.CreateCommand toCommand() {
+            return ReservationCommand.CreateCommand.builder()
                     .userId(this.userId)
                     .concertDetailId(this.concertDetailId)
                     .seatId(this.seatId)

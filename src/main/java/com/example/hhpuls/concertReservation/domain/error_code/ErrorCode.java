@@ -19,7 +19,8 @@ public enum ErrorCode {
     RESERVATION_SEAT_INFO_NOT_FOUND(503, "예약하려는 좌석정보를 찾지 못했습니다"),
     USER_POINT_IS_NOT_FOUND(600, "유저 포인트 정보를 찾지 못했습니다"),
     POINT_CHARGE_AMOUNT_MUST_POSITIVE_NUMBER(601, "포인트 충전량은 양수여야만 합니다."),
-    POINT_USE_AMOUNT_BIGGER_THAN_RESERVE(602, "가진 양보다 많은 포인트를 사용할 수 없습니다.");
+    POINT_USE_AMOUNT_BIGGER_THAN_RESERVE(602, "가진 양보다 많은 포인트를 사용할 수 없습니다."),
+    SEAT_INFO_NOT_FOUND(700, "좌석 정보를 찾지 못했습니다.");
 
 
     private final Integer code;
