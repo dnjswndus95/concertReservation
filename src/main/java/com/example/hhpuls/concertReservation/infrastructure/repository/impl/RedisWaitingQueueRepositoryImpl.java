@@ -6,7 +6,10 @@ import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import com.example.hhpuls.concertReservation.interfaces.config.SpringConfig;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +22,7 @@ import static com.example.hhpuls.concertReservation.domain.error_code.ErrorCode.
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
 
     // Redis의 ZSET과 관련된 연산 집합
@@ -70,7 +74,22 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
 
     @Override
     public Long getActiveQueueSize() {
-        return zSetOperations.size(this.getActiveQueueKey());
+        // 검색 옵션 설정
+        ScanOptions scanOptions = ScanOptions.scanOptions().match(this.springConfig.getActiveProfile() + ":" + ACTIVE_KEY + "*").count(100).build();
+
+        // 키 개수를 세기 위한 변수
+        long count = 0;
+
+        try (Cursor<byte[]> cursor = redisTemplate.getConnectionFactory().getConnection().scan(scanOptions)) {
+            while (cursor.hasNext()) {
+                cursor.next();
+                count++;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+        return count;
     }
 
     @Override
@@ -80,7 +99,7 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
 
     @Override
     public Long getActiveQueueRank(Long userId) {
-        return zSetOperations.rank(this.getActiveQueueKey(), userId.toString());
+        return zSetOperations.rank(this.getActiveQueueKey(userId), userId.toString());
     }
 
     @Override
@@ -98,7 +117,7 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
 
     @Override
     public void popActiveQueue(Long userId) {
-        zSetOperations.remove(this.getActiveQueueKey(), userId.toString());
+        zSetOperations.remove(this.getActiveQueueKey(userId), userId.toString());
     }
 
     public String getWaitingQueueKey() {

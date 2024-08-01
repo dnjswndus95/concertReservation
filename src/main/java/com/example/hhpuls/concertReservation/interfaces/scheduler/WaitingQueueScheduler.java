@@ -18,8 +18,9 @@ public class WaitingQueueScheduler {
     private final WaitingQueueService waitingQueueService;
     @Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
     public void addUserActiveQueue() {
-        long availableActiveUserCount = WaitingConstants.ACTIVE_QUEUE_MAX_SIZE - this.waitingQueueService.getActiveUserCount();
-        log.info("[대기열 스케줄러] 현재 활성화 큐에 있는 유저 수 : {}", this.waitingQueueService.getActiveUserCount());
+        long activeUserCount = this.waitingQueueService.getActiveUserCount();
+        long availableActiveUserCount = WaitingConstants.ACTIVE_QUEUE_MAX_SIZE - activeUserCount;
+        log.info("[대기열 스케줄러] 현재 활성화 큐에 있는 유저 수 : {}", activeUserCount);
 
         // 활성화 큐 최대 사이즈에서 빈 만큼 대기 큐에서 pop
         List<String> poppedIdList = this.waitingQueueService.getWaitingUserIdListToActive(availableActiveUserCount);
