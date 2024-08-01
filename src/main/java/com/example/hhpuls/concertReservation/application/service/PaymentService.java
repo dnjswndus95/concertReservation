@@ -26,6 +26,7 @@ public class PaymentService {
     private final UserPointRepository userPointRepository;
     private final ReservationRepository reservationRepository;
     private final SeatRepository seatRepository;
+    private final WaitingQueueService waitingQueueService;
 
     public Payment create(Long reservationId, Integer price) {
         Payment payment = new Payment(null, reservationId, price, PaymentStatus.WAITING.getValue());
@@ -55,6 +56,9 @@ public class PaymentService {
                 () -> new CustomException(ErrorCode.SEAT_INFO_NOT_FOUND)
         );
 
+        // 활성화 큐에서 사용자 제거
+        this.waitingQueueService.expire(command.userId());
+
         // 좌석 예약완료상태로 업데이트
         findSeat.updateSeatStatus(SeatStatus.CONFIRM.getValue());
         // 유저 포인트 차감
@@ -63,9 +67,7 @@ public class PaymentService {
         findPayment.done();
         // 예약 예약완료 상태로 업데이트
         reservation.done();
-
-
-
+        
 
         return findPayment;
     }
