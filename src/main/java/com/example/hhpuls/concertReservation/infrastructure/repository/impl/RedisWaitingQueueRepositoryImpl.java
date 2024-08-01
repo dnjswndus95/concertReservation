@@ -40,7 +40,7 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
 
     @Override
     public Long addWaitingQueue(Long userId) {
-        String key = this.springConfig.getActiveProfile() + ":" + WAITING_KEY;
+        String key = this.getWaitingQueueKey();
         Boolean isSuccess = zSetOperations.add(key, userId.toString(), System.currentTimeMillis());
         if(!isSuccess)
             throw new CustomException(ADD_WAITING_QUEUE_FAIL);
@@ -51,7 +51,7 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
 
     @Override
     public Long addActiveQueue(Long userId) {
-        String key = this.springConfig.getActiveProfile() + ":" + ACTIVE_KEY + ":" + userId.toString();
+        String key = this.getActiveQueueKey(userId);
         Boolean isSuccess = zSetOperations.add(key, userId.toString(), System.currentTimeMillis());
 
         if(!isSuccess)
@@ -105,7 +105,7 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
         return this.springConfig.getActiveProfile() + ":" + WAITING_KEY;
     }
 
-    public String getActiveQueueKey() {
-        return this.springConfig.getActiveProfile() + ":" + ACTIVE_KEY;
+    public String getActiveQueueKey(Long userId) {
+        return this.springConfig.getActiveProfile() + ":" + ACTIVE_KEY + ":" + userId.toString();
     }
 }
