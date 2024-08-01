@@ -1,6 +1,8 @@
 package com.example.hhpuls.concertReservation.infrastructure.repository.impl;
 
 import com.example.hhpuls.concertReservation.application.repository.WaitingQueueRepository;
+import com.example.hhpuls.concertReservation.common.exception.CustomException;
+import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import com.example.hhpuls.concertReservation.interfaces.config.SpringConfig;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static com.example.hhpuls.concertReservation.domain.error_code.ErrorCode.*;
 
 @Component
 @RequiredArgsConstructor
@@ -37,10 +41,9 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
     @Override
     public Long addWaitingQueue(Long userId) {
         String key = this.springConfig.getActiveProfile() + ":" + WAITING_KEY;
-        zSetOperations.add(key, userId.toString(), System.currentTimeMillis());
-
-        // 대기열 큐는 하루의 만료시간을 갖는다.
-        redisTemplate.expire(key, 1, TimeUnit.DAYS);
+        Boolean isSuccess = zSetOperations.add(key, userId.toString(), System.currentTimeMillis());
+        if(!isSuccess)
+            throw new CustomException(ADD_WAITING_QUEUE_FAIL);
 
         return zSetOperations.rank(key, userId.toString());
     }
@@ -48,11 +51,14 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
 
     @Override
     public Long addActiveQueue(Long userId) {
-        String key = this.springConfig.getActiveProfile() + ":" + ACTIVE_KEY;
-        zSetOperations.add(key, userId.toString(), System.currentTimeMillis());
+        String key = this.springConfig.getActiveProfile() + ":" + ACTIVE_KEY + ":" + userId.toString();
+        Boolean isSuccess = zSetOperations.add(key, userId.toString(), System.currentTimeMillis());
 
-        // 액티브 큐는 5분의 만료시간을 갖는다.
-        redisTemplate.expire(key, 1, TimeUnit.MINUTES);
+        if(!isSuccess)
+            throw new CustomException(ADD_ACTIVE_QUEUE_FAIL);
+
+        // 각 유저의 활성화 큐는 5분의 만료시간을 갖는다.
+        redisTemplate.expire(key, 5, TimeUnit.MINUTES);
 
         return zSetOperations.rank(key, userId.toString());
     }
