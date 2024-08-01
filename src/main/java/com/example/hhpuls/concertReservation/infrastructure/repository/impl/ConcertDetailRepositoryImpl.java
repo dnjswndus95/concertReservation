@@ -4,6 +4,7 @@ import com.example.hhpuls.concertReservation.application.repository.ConcertDetai
 import com.example.hhpuls.concertReservation.domain.domain.concert.ConcertDetail;
 import com.example.hhpuls.concertReservation.infrastructure.repository.jpa.JpaConcertDetailRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
     private final JpaConcertDetailRepository jpaConcertDetailRepository;
 
     @Override
+    @Cacheable(value = "concertDetailList", key = "T(com.example.hhpuls.concertReservation.common.utils.DateTimeUtil).truncateToHour(#now)")
     public List<ConcertDetail> findConcertDetails(LocalDateTime now) {
         return this.jpaConcertDetailRepository.findConcertDetails(now);
     }
