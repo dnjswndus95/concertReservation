@@ -1,6 +1,5 @@
 package com.example.hhpuls.concertReservation.integration;
 
-import com.example.hhpuls.concertReservation.application.facade.ConcertFacade;
 import com.example.hhpuls.concertReservation.application.repository.ConcertDetailRepository;
 import com.example.hhpuls.concertReservation.application.repository.SeatRepository;
 import com.example.hhpuls.concertReservation.application.service.ConcertService;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 

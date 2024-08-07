@@ -1,6 +1,9 @@
 spring:
   jpa:
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
   application:
      name: concertReservation
   datasource:
@@ -8,3 +11,22 @@ spring:
     username: root
     password: juyeoun1158!
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6380
+  logging:
+    level:
+      org:
+        hibernate:
+          SQL: debug
+          type:
+            descriptor:
+              sql: trace
+  cache:
+    type: simple
+
+  session:
+    redis:
+      namespace: hhplus-waiting-local
+      repository-type: indexed

@@ -6,6 +6,8 @@ public enum ErrorCode {
     TOKEN_NOT_FOUND(101, "토큰 정보를 찾지 못했습니다."),
     ALREADY_TOKEN_EXPIRED(102, "이미 만료된 토큰입니다"),
     ALREADY_TOKEN_ACTIVE(103, "이미 활성화된 토큰입니다"),
+    ADD_WAITING_QUEUE_FAIL(104, "대기열 등록에 실패했습니다."),
+    ADD_ACTIVE_QUEUE_FAIL(105, "활성화 큐 등록에 실패했습니다."),
     CONCERT_INFO_NOT_FOUND(200, "콘서트 정보를 찾지 못했습니다."),
     CONCERT_SEAT_INFO_NOT_FOUND(201, "콘서트 좌석정보를 찾지 못했습니다."),
     PAYMENT_INFO_CREATE_ERROR(300, "결제 내역 생성에 실패했습니다."),

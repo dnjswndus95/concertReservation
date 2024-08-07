@@ -32,4 +32,10 @@ public class ConcertDetailRepositoryImpl implements ConcertDetailRepository {
     public List<ConcertDetail> findAvailableReserveConcertDetails(Long concertId, LocalDateTime now) {
         return this.jpaConcertDetailRepository.findAvailableReserveConcertDetails(concertId, now);
     }
+
+    @Override
+    public void saveAll(List<ConcertDetail> concertDetailList) {
+        this.jpaConcertDetailRepository.saveAll(concertDetailList);
+    }
+
 }
