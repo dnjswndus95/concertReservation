@@ -1,7 +1,8 @@
-package com.example.hhpuls.concertReservation.domain.domain;
+package com.example.hhpuls.concertReservation.domain.domain.reservation;
 
 import com.example.hhpuls.concertReservation.common.enums.ReservationStatus;
 import com.example.hhpuls.concertReservation.common.exception.CustomException;
+import com.example.hhpuls.concertReservation.domain.domain.BaseTime;
 import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

@@ -1,23 +1,9 @@
 package com.example.hhpuls.concertReservation.integration;
 
-import com.example.hhpuls.concertReservation.application.command.PaymentCommand;
 import com.example.hhpuls.concertReservation.application.facade.PaymentFacade;
 import com.example.hhpuls.concertReservation.application.repository.SeatRepository;
 import com.example.hhpuls.concertReservation.application.service.ReservationService;
 import com.example.hhpuls.concertReservation.application.service.WaitingQueueService;
-import com.example.hhpuls.concertReservation.common.enums.PaymentStatus;
-import com.example.hhpuls.concertReservation.common.enums.ReservationStatus;
-import com.example.hhpuls.concertReservation.common.enums.SeatStatus;
-import com.example.hhpuls.concertReservation.common.enums.TokenStatus;
-import com.example.hhpuls.concertReservation.common.exception.CustomException;
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
-import com.example.hhpuls.concertReservation.domain.domain.UserToken;
-import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
-import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
-import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

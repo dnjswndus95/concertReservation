@@ -1,7 +1,7 @@
 package com.example.hhpuls.concertReservation.infrastructure.repository.impl;
 
 import com.example.hhpuls.concertReservation.application.repository.ReservationRepository;
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import com.example.hhpuls.concertReservation.infrastructure.repository.jpa.JpaReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

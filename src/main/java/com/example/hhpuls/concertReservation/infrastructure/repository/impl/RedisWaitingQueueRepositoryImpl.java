@@ -94,7 +94,6 @@ public class RedisWaitingQueueRepositoryImpl implements WaitingQueueRepository {
 
     @Override
     public Long getWaitingQueueRank(Long userId) {
-        zSetOperations.
         return zSetOperations.rank(this.getWaitingQueueKey(), userId.toString());
     }
 

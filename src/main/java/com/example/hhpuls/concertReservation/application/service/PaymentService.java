@@ -1,14 +1,12 @@
 package com.example.hhpuls.concertReservation.application.service;
 
 import com.example.hhpuls.concertReservation.application.command.PaymentCommand;
-import com.example.hhpuls.concertReservation.application.repository.PaymentRepository;
-import com.example.hhpuls.concertReservation.application.repository.ReservationRepository;
-import com.example.hhpuls.concertReservation.application.repository.SeatRepository;
-import com.example.hhpuls.concertReservation.application.repository.UserPointRepository;
+import com.example.hhpuls.concertReservation.application.repository.*;
 import com.example.hhpuls.concertReservation.common.enums.PaymentStatus;
 import com.example.hhpuls.concertReservation.common.enums.SeatStatus;
 import com.example.hhpuls.concertReservation.common.exception.CustomException;
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.payment.PaymentLog;
+import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
 import com.example.hhpuls.concertReservation.domain.domain.payment.UserPoint;
 import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
@@ -16,6 +14,8 @@ import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -27,13 +27,16 @@ public class PaymentService {
     private final ReservationRepository reservationRepository;
     private final SeatRepository seatRepository;
     private final WaitingQueueService waitingQueueService;
+    private final PaymentLogRepository paymentLogRepository;
 
-    public Payment create(Long reservationId, Integer price) {
+    public Payment create(Long reservationId, Integer price, Long userId) {
         Payment payment = new Payment(null, reservationId, price, PaymentStatus.WAITING.getValue());
 
         try {
-            return this.paymentRepository.create(payment);
-        } catch (Exception e){
+            Payment createdPayment = this.paymentRepository.create(payment);
+            this.paymentLogRepository.save(new PaymentLog(null, null, createdPayment.getId(), userId, createdPayment.getStatus()));
+            return createdPayment;
+        } catch (Exception e) {
             log.info(e.getMessage());
             throw new CustomException(ErrorCode.PAYMENT_INFO_CREATE_ERROR);
         }
@@ -67,7 +70,10 @@ public class PaymentService {
         findPayment.done();
         // 예약 예약완료 상태로 업데이트
         reservation.done();
-        
+
+        // 예약 로그 생성
+        this.paymentLogRepository.save(new PaymentLog(null, null, findPayment.getId(), command.userId(), PaymentStatus.DONE.getValue()));
+
 
         return findPayment;
     }

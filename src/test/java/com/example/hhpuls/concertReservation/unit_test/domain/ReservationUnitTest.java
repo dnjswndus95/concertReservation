@@ -2,7 +2,7 @@ package com.example.hhpuls.concertReservation.unit_test.domain;
 
 import com.example.hhpuls.concertReservation.common.enums.ReservationStatus;
 import com.example.hhpuls.concertReservation.common.exception.CustomException;
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
