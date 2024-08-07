@@ -13,4 +13,6 @@ public interface ConcertDetailRepository {
     public Optional<ConcertDetail> findById(Long id);
 
     public List<ConcertDetail> findAvailableReserveConcertDetails(Long concertId, LocalDateTime now);
+
+    public void saveAll(List<ConcertDetail> concertDetailList);
 }

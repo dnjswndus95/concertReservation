@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface JpaConcertDetailRepository extends JpaRepository<ConcertDetail, Long> {
 
-    @Query("SELECT cd FROM ConcertDetail cd WHERE cd.concertDate > :now")
+    @Query("SELECT cd FROM ConcertDetail cd WHERE cd.concertDate > :now AND cd.availableReservationDate < :now")
     List<ConcertDetail> findConcertDetails(LocalDateTime now);
 
-    @Query("SELECT cd FROM ConcertDetail cd WHERE cd.concertId = :concertId AND cd.concertDate > :now AND cd.availableReservationDate < :now")
+    @Query("SELECT cd FROM ConcertDetail cd WHERE cd.concertId = :concertId AND cd.concertDate > :now AND cd.availableReservationDate > :now")
     List<ConcertDetail> findAvailableReserveConcertDetails(Long concertId, LocalDateTime now);
 }

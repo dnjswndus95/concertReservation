@@ -1,9 +1,7 @@
-/*
+
 package com.example.hhpuls.concertReservation.unit_test.service;
 
 import com.example.hhpuls.concertReservation.application.command.ConcertCommand;
-import com.example.hhpuls.concertReservation.application.model.ConcertInfoWithCreateDateModel;
-import com.example.hhpuls.concertReservation.application.model.SeatInfoModel;
 import com.example.hhpuls.concertReservation.application.repository.ConcertDetailRepository;
 import com.example.hhpuls.concertReservation.application.repository.SeatRepository;
 import com.example.hhpuls.concertReservation.application.service.ConcertService;
@@ -13,12 +11,15 @@ import com.example.hhpuls.concertReservation.domain.domain.concert.Concert;
 import com.example.hhpuls.concertReservation.domain.domain.concert.ConcertDetail;
 import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,7 +41,22 @@ public class ConcertServiceUnitTest {
     @Mock
     SeatRepository seatRepository;
 
-    @Test
+    /*@BeforeAll
+    public static void init() {
+        Concert concert = new Concert(1L, "테스트 콘서트", null);
+        List<ConcertDetail> concertDetailList = new ArrayList<>();
+        LocalDateTime concertDate = LocalDateTime.of(2025, 10, 10, 19, 0, 0);
+        LocalDateTime availableReservationDate = LocalDateTime.of(2024, 7, 1, 19, 0, 0);
+        for(int i = 0; i < 300; ++i) {
+            long id = (long) i;
+            concertDetailList.add(new ConcertDetail(id, 1L,  concertDate, availableReservationDate, concert));
+        }
+        concertDetailRepository.saveAll(concertDetailList);
+    }*/
+
+
+
+    /*@Test
     @DisplayName("개별 콘서트 정보 조회")
     public void 개별콘서트정보조회() {
         // given
@@ -87,7 +103,7 @@ public class ConcertServiceUnitTest {
         Assertions.assertThat(e.getMessage()).isEqualTo("콘서트 상세정보가 없습니다.");
     }
 
-    @Test
+*//*    @Test
     @DisplayName("좌석 조회 실패")
     public void 좌석찾기_실패() {
         // given
@@ -98,7 +114,7 @@ public class ConcertServiceUnitTest {
 
         // then
         Assertions.assertThat(e.getMessage()).isEqualTo("좌석 정보를 찾을 수 없습니다.");
-    }
+    }*//*
 
     @Test
     @DisplayName("예약 가능한 콘서트 조회")
@@ -125,9 +141,9 @@ public class ConcertServiceUnitTest {
         // then
         Assertions.assertThat(result.get(0)).isEqualTo(concertDetail1);
         Assertions.assertThat(result.get(1)).isEqualTo(concertDetail2);
-    }
+    }*/
 
-    @Test
+   /* @Test
     @DisplayName("콘서트 좌석 조회")
     public void 콘서트_좌석조회_실패() {
         // given
@@ -211,6 +227,6 @@ public class ConcertServiceUnitTest {
         Assertions.assertThat(result.seatList().size()).isEqualTo(2);
         Assertions.assertThat(result.seatList().get(0)).isEqualTo(mockResult.seatList().get(0));
         Assertions.assertThat(result.seatList().get(1)).isEqualTo(mockResult.seatList().get(1));
-    }
+    }*/
 }
-*/
+

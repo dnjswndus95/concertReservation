@@ -1,12 +1,9 @@
 package com.example.hhpuls.concertReservation.presentation.dto.waiting;
 
-import com.example.hhpuls.concertReservation.domain.domain.UserToken;
 import lombok.Builder;
 
-import java.time.LocalDateTime;
-
-public class GetTokenInfoDto {
-    @Builder
+public class GetWaitingQueueInfoDto {
+    /*@Builder
     public record Response(
             Long userId,
             String token,
@@ -21,6 +18,17 @@ public class GetTokenInfoDto {
                     .tokenStatus(userToken.getStatus())
                     .activeDate(userToken.getActiveDate())
                     .createDate(userToken.getCreateDate())
+                    .build();
+        }
+    }*/
+
+    @Builder
+    public record Response(
+            Long rank
+    ) {
+        public static GetWaitingQueueInfoDto.Response from(Long rank) {
+            return Response.builder()
+                    .rank(rank)
                     .build();
         }
     }

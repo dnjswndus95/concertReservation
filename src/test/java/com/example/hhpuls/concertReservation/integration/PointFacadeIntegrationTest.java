@@ -24,6 +24,7 @@ public class PointFacadeIntegrationTest {
     @Autowired
     PointService pointService;
 
+
     @DisplayName("유저가 포인트를 조회한다.")
     @Test
     void 유저는_자신의_포인트_조회를_할_수_있다() {
