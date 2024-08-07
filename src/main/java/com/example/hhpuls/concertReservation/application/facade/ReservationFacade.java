@@ -6,7 +6,7 @@ import com.example.hhpuls.concertReservation.application.model.ReservationInfoWi
 import com.example.hhpuls.concertReservation.application.service.ConcertService;
 import com.example.hhpuls.concertReservation.application.service.PaymentService;
 import com.example.hhpuls.concertReservation.application.service.ReservationService;
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import com.example.hhpuls.concertReservation.domain.domain.concert.ConcertDetail;
 import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class ReservationFacade {
         ReservationInfoWithSeatInfo reservationInfoWithSeatInfo = this.reservationService.reserve(command);
 
         // 결제내역 생성
-        Payment payment = this.paymentService.create(reservationInfoWithSeatInfo.reservation().getId(), reservationInfoWithSeatInfo.seat().getPrice());
+        Payment payment = this.paymentService.create(reservationInfoWithSeatInfo.reservation().getId(), reservationInfoWithSeatInfo.seat().getPrice(), command.userId());
 
         return ReservationInfo.builder()
                 .concertDetail(findConcertDetail)

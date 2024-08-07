@@ -1,6 +1,6 @@
 package com.example.hhpuls.concertReservation.application.repository;
 
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 
 import java.time.LocalDateTime;
 import java.util.List;

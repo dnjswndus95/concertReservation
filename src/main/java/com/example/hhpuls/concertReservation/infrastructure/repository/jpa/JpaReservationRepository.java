@@ -1,6 +1,6 @@
 package com.example.hhpuls.concertReservation.infrastructure.repository.jpa;
 
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

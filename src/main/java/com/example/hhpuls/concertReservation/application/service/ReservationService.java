@@ -7,7 +7,7 @@ import com.example.hhpuls.concertReservation.application.repository.SeatReposito
 import com.example.hhpuls.concertReservation.common.enums.ReservationStatus;
 import com.example.hhpuls.concertReservation.common.enums.SeatStatus;
 import com.example.hhpuls.concertReservation.common.exception.CustomException;
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
 import com.example.hhpuls.concertReservation.domain.error_code.ErrorCode;
 import lombok.RequiredArgsConstructor;
