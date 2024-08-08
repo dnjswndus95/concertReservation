@@ -6,6 +6,8 @@ import com.example.hhpuls.concertReservation.common.enums.PaymentStatus;
 import com.example.hhpuls.concertReservation.common.enums.SeatStatus;
 import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.payment.PaymentLog;
+import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentEventPublisher;
+import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentSuccessEvent;
 import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
 import com.example.hhpuls.concertReservation.domain.domain.payment.UserPoint;
@@ -28,6 +30,7 @@ public class PaymentService {
     private final SeatRepository seatRepository;
     private final WaitingQueueService waitingQueueService;
     private final PaymentLogRepository paymentLogRepository;
+    private final PaymentEventPublisher paymentEventPublisher;
 
     public Payment create(Long reservationId, Integer price, Long userId) {
         Payment payment = new Payment(null, reservationId, price, PaymentStatus.WAITING.getValue());
@@ -42,7 +45,7 @@ public class PaymentService {
         }
     }
 
-    public Payment payment(PaymentCommand.PaymentDoneCommand command) {
+    public Payment payment(PaymentCommand.PaymentDoneCommand command) throws InterruptedException {
         Payment findPayment = this.paymentRepository.findById(command.paymentId()).orElseThrow(
                 () -> new CustomException(ErrorCode.PAYMENT_INFO_NOT_FOUND)
         );
@@ -72,8 +75,12 @@ public class PaymentService {
         reservation.done();
 
         // 예약 로그 생성
-        this.paymentLogRepository.save(new PaymentLog(null, null, findPayment.getId(), command.userId(), PaymentStatus.DONE.getValue()));
+        //this.paymentLogRepository.save(new PaymentLog(null, null, findPayment.getId(), command.userId(), PaymentStatus.DONE.getValue()));
 
+        // event
+        this.paymentEventPublisher.publish(new PaymentSuccessEvent(command.userId(), findPayment.getId(), findPayment.getPaymentPrice()));
+
+        log.info("결제 API return");
 
         return findPayment;
     }

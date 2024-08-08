@@ -14,6 +14,8 @@
 # Index를 통한 DB 쿼리 성능 개선 보고서
 <https://detailed-grain-8fe.notion.site/bbea1a7d93f842c19e3c46ce48177d10?pvs=4>
 
+# MSA 서비스 설계문서
+<https://detailed-grain-8fe.notion.site/491e9424155f4ee08e4250f55193dd7a?pvs=4>
 
 API Spec, MileStone, 요구사항 명세서가 위 링크에 포함되어 있습니다.
 
