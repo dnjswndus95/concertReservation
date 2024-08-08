@@ -11,6 +11,9 @@
 # 캐싱 Redis 분석 자료 제출
 <https://detailed-grain-8fe.notion.site/a9abb04214b04e36a2ae207c2c1b4b15?pvs=4>
 
+# Index를 통한 DB 쿼리 성능 개선 보고서
+<https://detailed-grain-8fe.notion.site/bbea1a7d93f842c19e3c46ce48177d10?pvs=4>
+
 
 API Spec, MileStone, 요구사항 명세서가 위 링크에 포함되어 있습니다.
 
