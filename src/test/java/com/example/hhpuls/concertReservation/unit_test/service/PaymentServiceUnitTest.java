@@ -8,7 +8,7 @@ import com.example.hhpuls.concertReservation.application.repository.UserPointRep
 import com.example.hhpuls.concertReservation.application.service.PaymentService;
 import com.example.hhpuls.concertReservation.common.enums.PaymentStatus;
 import com.example.hhpuls.concertReservation.common.enums.ReservationStatus;
-import com.example.hhpuls.concertReservation.domain.domain.Reservation;
+import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import com.example.hhpuls.concertReservation.domain.domain.payment.UserPoint;
 import com.example.hhpuls.concertReservation.domain.domain.payment.Payment;
 import org.assertj.core.api.Assertions;
