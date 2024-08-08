@@ -6,6 +6,7 @@ import com.example.hhpuls.concertReservation.common.enums.PaymentStatus;
 import com.example.hhpuls.concertReservation.common.enums.SeatStatus;
 import com.example.hhpuls.concertReservation.common.exception.CustomException;
 import com.example.hhpuls.concertReservation.domain.domain.payment.PaymentLog;
+import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentEventPublisher;
 import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentSuccessEvent;
 import com.example.hhpuls.concertReservation.domain.domain.reservation.Reservation;
 import com.example.hhpuls.concertReservation.domain.domain.concert.Seat;
@@ -29,7 +30,7 @@ public class PaymentService {
     private final SeatRepository seatRepository;
     private final WaitingQueueService waitingQueueService;
     private final PaymentLogRepository paymentLogRepository;
-    private final SendService sendService;
+    private final PaymentEventPublisher paymentEventPublisher;
 
     public Payment create(Long reservationId, Integer price, Long userId) {
         Payment payment = new Payment(null, reservationId, price, PaymentStatus.WAITING.getValue());
@@ -74,12 +75,12 @@ public class PaymentService {
         reservation.done();
 
         // 예약 로그 생성
-        this.paymentLogRepository.save(new PaymentLog(null, null, findPayment.getId(), command.userId(), PaymentStatus.DONE.getValue()));
+        //this.paymentLogRepository.save(new PaymentLog(null, null, findPayment.getId(), command.userId(), PaymentStatus.DONE.getValue()));
 
+        // event
+        this.paymentEventPublisher.publish(new PaymentSuccessEvent(command.userId(), findPayment.getId(), findPayment.getPaymentPrice()));
 
-        // 외부 API 호출을 기존 로직에 포함한다면
-        this.sendService.send(findPayment.getId(), command.userId(), findPayment.getPaymentPrice());
-
+        log.info("결제 API return");
 
         return findPayment;
     }
