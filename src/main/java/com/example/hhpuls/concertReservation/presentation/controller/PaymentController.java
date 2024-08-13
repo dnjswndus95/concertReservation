@@ -18,10 +18,9 @@ public class PaymentController {
     private final PaymentFacade paymentFacade;
     @Operation(summary = "결제", description = "결제를 진행합니다.")
     @PostMapping("/")
-    public PaymentDto.Response payment(@RequestHeader("Authorization") String authorization,
-                                       @RequestBody PaymentDto.Request request) {
+    public PaymentDto.Response payment(@RequestBody PaymentDto.Request request) throws InterruptedException {
         return PaymentDto.Response.fromCommand(
-                this.paymentFacade.payment(request.toCommand(authorization))
+                this.paymentFacade.payment(request.toCommand())
         );
     }
 }

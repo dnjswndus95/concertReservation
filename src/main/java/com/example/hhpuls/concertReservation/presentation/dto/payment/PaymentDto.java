@@ -12,7 +12,7 @@ public class PaymentDto {
             Long paymentId,
             Integer point
     ) {
-        public PaymentCommand.PaymentDoneCommand toCommand(String token) {
+        public PaymentCommand.PaymentDoneCommand toCommand() {
             return PaymentCommand.PaymentDoneCommand.builder()
                     .paymentId(this.paymentId)
                     .userId(this.userId)
