@@ -28,12 +28,14 @@ public class LoggingFilter implements Filter {
         ContentCachingRequestWrapper httpServletRequest = new ContentCachingRequestWrapper((HttpServletRequest) request);
         ContentCachingResponseWrapper httpServletResponse = new ContentCachingResponseWrapper((HttpServletResponse) response);
 
-        chain.doFilter(httpServletRequest, httpServletResponse);
+
 
         String uri = httpServletRequest.getRequestURI();
         String reqContent = new String(httpServletRequest.getContentAsString());
 
         log.info("요청 uri : {}, requestBody : {}", uri, reqContent);
+
+        chain.doFilter(httpServletRequest, httpServletResponse);
 
         Integer httpStatus = httpServletResponse.getStatus();
         String resContent = new String(httpServletResponse.getContentAsByteArray());

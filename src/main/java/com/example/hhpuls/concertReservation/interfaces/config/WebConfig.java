@@ -20,6 +20,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         // 특정 url에서만 인터셉터를 타도록 등록
-        registry.addInterceptor(authenticationInterceptor).addPathPatterns("/payment/**", "/reservation/**", "/concert/**");
+        registry.addInterceptor(authenticationInterceptor).addPathPatterns("/reservation/**", "/concert/**");
     }
 }

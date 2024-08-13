@@ -23,8 +23,8 @@ public class UserPoint extends BaseTime {
     @Column(name = "point")
     private Integer point;
 
-    @Version
-    private Integer version = 0;
+    //@Version
+    //private Integer version = 0;
 
 
     public void charge(Integer price) {

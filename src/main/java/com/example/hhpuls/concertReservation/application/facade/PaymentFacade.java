@@ -16,9 +16,9 @@ public class PaymentFacade {
     private final WaitingQueueService waitingQueueService;
 
     @Transactional
-    public Payment payment(PaymentCommand.PaymentDoneCommand command) {
+    public Payment payment(PaymentCommand.PaymentDoneCommand command) throws InterruptedException{
         Payment payment = this.paymentService.payment(command);
-        this.waitingQueueService.expire(command.userId());
+        //this.waitingQueueService.expire(command.userId());
         return payment;
     }
 }
