@@ -2,6 +2,7 @@ package com.example.hhpuls.concertReservation.interfaces.event.listener;
 
 import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentEvent;
 import com.example.hhpuls.concertReservation.domain.domain.payment.message.PaymentMessageSender;
+import com.example.hhpuls.concertReservation.infrastructure.kafka.KafkaMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class PaymentKafkaEventListener {
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    void sendMessage(PaymentEvent paymentEvent) {
-        paymentMessageSender.send(paymentEvent);
+    void sendMessage(KafkaMessage<PaymentEvent> message) {
+        paymentMessageSender.send(message);
     }
 }
