@@ -1,15 +1,19 @@
 package com.example.hhpuls.concertReservation.domain.domain.payment.event;
 
 
-public class PaymentSuccessEvent {
+public class PaymentEvent {
     private Long userId;
     private Long paymentId;
     private Integer price;
 
-    public PaymentSuccessEvent(Long userId, Long paymentId, Integer price) {
+    public PaymentEvent(Long userId, Long paymentId, Integer price) {
         this.userId = userId;
         this.paymentId = paymentId;
         this.price = price;
+    }
+
+    public PaymentEvent() {
+
     }
 
     public Long getPaymentId() {
