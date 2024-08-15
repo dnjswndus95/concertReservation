@@ -1,8 +1,7 @@
 package com.example.hhpuls.concertReservation.interfaces.event.listener;
 
 import com.example.hhpuls.concertReservation.application.service.SendService;
-import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentEventPublisher;
-import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentSuccessEvent;
+import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,7 @@ public class PaymentEventListener {
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void paymentSuccessHandler(PaymentSuccessEvent event) throws InterruptedException {
+    public void paymentSuccessHandler(PaymentEvent event) throws InterruptedException {
         this.sendService.send(event.getPaymentId(), event.getUserId(), event.getPrice());
     }
 }

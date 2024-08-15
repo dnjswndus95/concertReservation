@@ -6,10 +6,13 @@ public class PaymentEvent {
     private Long paymentId;
     private Integer price;
 
-    public PaymentEvent(Long userId, Long paymentId, Integer price) {
+    private String outBoxId;
+
+    public PaymentEvent(Long userId, Long paymentId, Integer price, String outBoxId) {
         this.userId = userId;
         this.paymentId = paymentId;
         this.price = price;
+        this.outBoxId = outBoxId;
     }
 
     public PaymentEvent() {
@@ -28,4 +31,5 @@ public class PaymentEvent {
         return this.price;
     }
 
+    public String getOutBoxId() { return this.outBoxId; }
 }
