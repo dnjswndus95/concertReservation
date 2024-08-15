@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant 사용자
+participant 서버
+participant 콘서트
+
+사용자 -> 서버 : GET api/concerts \n콘서트 리스트 조회
+activate 서버
+서버 -> 콘서트 : 콘서트 정보 리스트 요청
+activate 콘서트
+콘서트 -> 서버 : 콘서트 정보 리스트 반환
+deactivate 콘서트
+서버 -> 사용자 : 콘서트 정보 리스트를 담은 Response 반환
+deactivate 서버
+
+@enduml

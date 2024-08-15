@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant 사용자
+participant 서버
+participant 대기열
+
+사용자 -> 서버 : POST /waiting
+activate 서버
+note left
+- Body:
+{
+    "userId": String, // user PK
+    "token": String // token 값
+}
+end note
+
+서버 -> 대기열 : 대기열 조회
+activate 대기열
+alt token != null
+    대기열 --> 서버 : 대기열 진입 가능여부, 토큰 정보, 순번 등 반환
+else token == null
+    대기열 --> 서버 : 토큰 생성 및 토큰 정보 반환
+end
+
+deactivate 대기열
+서버 --> 사용자 : 대기열 진입 가능여부, 토큰정보, 순번을 포함한 Response 반환
+
+deactivate 사용자
+
+
+@enduml
+
