@@ -7,9 +7,12 @@
 # 부하 테스트 분석 및 장애 대응 보고서
 <https://detailed-grain-8fe.notion.site/8c2af40920a04caf976929e7db1cf376>
 
+# 발표자료
+<https://detailed-grain-8fe.notion.site/30773701814745cf89eac5fa805c8073>
+
+
 # 설계 문서 링크
 <https://docs.google.com/spreadsheets/d/1jEcFOqxLlLurLuoxODR3ltuUxoNz-vNjaMJXt3ERWxY/edit?gid=0#gid=0>
-
 
 
 # 동시성 문제 발생 Use Case 분석 자료 제출
