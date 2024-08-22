@@ -1,6 +1,10 @@
 # concertReservation
 콘서트 예약 시스템
 
+# 부하 테스트 시나리오 문서
+<https://detailed-grain-8fe.notion.site/68c661d9f8f84add8f62a312406e0744?pvs=4>
+
+
 # 설계 문서 링크
 <https://docs.google.com/spreadsheets/d/1jEcFOqxLlLurLuoxODR3ltuUxoNz-vNjaMJXt3ERWxY/edit?gid=0#gid=0>
 
