@@ -4,6 +4,8 @@
 # 부하 테스트 시나리오 문서
 <https://detailed-grain-8fe.notion.site/68c661d9f8f84add8f62a312406e0744?pvs=4>
 
+# 부하 테스트 분석 및 장애 대응 보고서
+<https://detailed-grain-8fe.notion.site/8c2af40920a04caf976929e7db1cf376>
 
 # 설계 문서 링크
 <https://docs.google.com/spreadsheets/d/1jEcFOqxLlLurLuoxODR3ltuUxoNz-vNjaMJXt3ERWxY/edit?gid=0#gid=0>
