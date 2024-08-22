@@ -8,5 +8,5 @@ providers:
     disableDeletion: false
     updateIntervalSeconds: 10
     options:
-      path: ./dashboard/k6.json
+      path: /dashboard/k6.json
       foldersFromFilesStructure: true

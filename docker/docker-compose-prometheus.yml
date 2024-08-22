@@ -9,7 +9,7 @@ services:
       - C:\Users\dnjsw\Desktop\항해\concertReservation\src\main\resources\script\script.js:/script.js
     command: run -o experimental-prometheus-rw /script.js
     environment:
-      - K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write
+      - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write
       - K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
     extra_hosts:
         - "host.docker.internal:host-gateway"
@@ -22,7 +22,6 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      #- ./prometheus:/prometheus
     ports:
       - "9090:9090"
     restart: always
@@ -30,15 +29,13 @@ services:
       - --web.enable-remote-write-receiver
       - --enable-feature=native-histograms
       - --config.file=/etc/prometheus/prometheus.yml
-      #- --config.file=C:\Users\dnjsw\Desktop\항해\concertReservation\docker\prometheus/prometheus.yml
-
 
   grafana:
     image: grafana/grafana
     container_name: grafana
     volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboard:/dashboard
+      - C:\Users\dnjsw\Desktop\항해\concertReservation\docker\grafana\provisioning:/etc/grafana/provisioning
+      - C:\Users\dnjsw\Desktop\항해\concertReservation\docker\grafana\dashboard:/dashboard
     ports:
       - "3000:3000"
     restart: always
