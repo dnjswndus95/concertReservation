@@ -1,8 +1,45 @@
 import http from 'k6/http';
 import { check } from 'k6';
-import { randomIntBetween, randomString } from "https://jslib.k6.io/k6-utils/1.1.0/index.js";
+import { randomIntBetween, randomString } from "https://jslib.k6.io/k6-utils/1.2.0/index.js";
 
 export let options = {
+    scenarios: {
+        reservation_scenario: {
+            vus: 100,
+            exec: 'reservation_scenario',
+            executor: 'per-vu-iterations',
+            iterations: 1000
+        }
+    }
+};
+
+export function reservation_scenario() {
+    let userId = randomIntBetween(1, 100);
+
+    charge(userId)
+}
+
+function charge(userId) {
+    let chargePoint = randomIntBetween(10, 50) * 1000;
+
+    let chargeRes = http.post(
+        `http://host.docker.internal:8080/balance/charge`, JSON.stringify({
+            userId: userId,
+            balance: chargePoint
+        }),{
+            headers: {'Content-Type': 'application/json'},
+            tags: { name : 'charge'}
+        }
+    )
+
+    check(chargeRes, {'is status 200': (r) => r.status === 200});
+}
+
+
+
+
+
+/*export let options = {
     vus: 300, // 가상 사용자 수
     duration: '10m', // 테스트 지속 시간
 };
@@ -36,4 +73,4 @@ export default function () {
     check(response, {
         'is status 200': (r) => r.status === 200,
     });
-}
+}*/
