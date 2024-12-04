@@ -1,7 +1,9 @@
 package com.example.hhpuls.concertReservation.interfaces.event.publisher;
 
 import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentEventPublisher;
-import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentSuccessEvent;
+import com.example.hhpuls.concertReservation.domain.domain.payment.event.PaymentEvent;
+import com.example.hhpuls.concertReservation.domain.domain.payment.message.PaymentMessageSender;
+import com.example.hhpuls.concertReservation.infrastructure.kafka.KafkaMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -10,9 +12,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PaymentEventPublisherImpl implements PaymentEventPublisher {
 
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final PaymentMessageSender paymentMessageSender;
+
     @Override
-    public void publish(PaymentSuccessEvent event) {
-        this.applicationEventPublisher.publishEvent(event);
+    public void publish(KafkaMessage<PaymentEvent> event) {
+        this.paymentMessageSender.send(event);
     }
 }
